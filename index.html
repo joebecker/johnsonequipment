@@ -3,824 +3,295 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Johnson Equipment — Scissor Lifts (prototype)</title>
+<title>Scissor Lifts | Johnson Equipment</title>
+<meta name="description" content="Compare any Genie, JLG, Skyjack or MEC scissor lift to a comparable NobleLift electric lift from Johnson Equipment — quoted fast, backed by 60 years of service." />
 <meta name="robots" content="noindex" />
 <script src="https://cdn.tailwindcss.com"></script>
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@18.3.1",
-    "react-dom": "https://esm.sh/react-dom@18.3.1?external=react",
-    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client?external=react",
-    "lucide-react": "https://esm.sh/lucide-react@0.462.0?external=react"
-  }
-}
-</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  html,body,#root{height:100%;margin:0}
-  #boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
-    font-family:system-ui,sans-serif;color:#475569;background:#fff}
+  /* ---- Brand tokens (edit these to match jequip.com exactly) ---- */
+  :root{
+    --ink:#1b1f24; --ink-2:#2a3037; --steel:#5b6670; --steel-2:#8b949d;
+    --line:#e3e7ea; --mist:#f4f6f8; --white:#ffffff;
+    --brand:#cc1f2d; --brand-dark:#a8121f;        /* Rite-Hite-style red accent */
+    --head:'Montserrat',system-ui,sans-serif; --body:'Open Sans',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--white)}
+  .head{font-family:var(--head)}
+  .eyebrow{font-family:var(--head);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.72rem;color:var(--brand)}
+  .nav-link{font-family:var(--head);font-weight:600;font-size:.86rem;letter-spacing:.02em;color:var(--ink);text-transform:uppercase}
+  .nav-link:hover{color:var(--brand)}
+  .btn{font-family:var(--head);font-weight:700;letter-spacing:.03em;text-transform:uppercase;display:inline-flex;align-items:center;gap:.5rem;border-radius:2px;transition:.15s;cursor:pointer}
+  .btn-red{background:var(--brand);color:#fff} .btn-red:hover{background:var(--brand-dark)}
+  .btn-ghost{border:1.5px solid var(--ink);color:var(--ink)} .btn-ghost:hover{background:var(--ink);color:#fff}
+  .btn-light{border:1.5px solid rgba(255,255,255,.55);color:#fff} .btn-light:hover{background:#fff;color:var(--ink)}
+  .hero-bg{background:
+      linear-gradient(110deg, rgba(20,24,28,.92) 0%, rgba(20,24,28,.78) 45%, rgba(27,31,36,.45) 100%),
+      repeating-linear-gradient(135deg,#222a31 0 2px,transparent 2px 26px),
+      linear-gradient(160deg,#2b343c,#161a1e)}
+  .dropdown:hover .menu{display:block}
+  .menu{display:none}
+  .tile:hover{border-color:var(--brand);transform:translateY(-3px)}
+  .tile:hover .tile-ico{background:var(--brand);color:#fff}
 </style>
 </head>
 <body>
-<div id="root"><div id="boot">Loading prototype…</div></div>
 
-<script type="text/babel" data-type="module" data-presets="react">
-import { createRoot } from "react-dom/client";
-import React, { useState, useEffect, useMemo, useRef } from "react";
-import {
-  Search, Phone, ChevronRight, ArrowRight, Check, X, ShieldCheck,
-  Wrench, Clock, MapPin, Menu, ArrowLeftRight, Code2, Building2,
-  ArrowUpRight, ChevronLeft,
-} from "lucide-react";
+<!-- Announcement bar -->
+<div style="background:var(--ink)" class="text-white text-center text-[13px] py-2 px-4">
+  <span class="opacity-90">Johnson Equipment Company is now part of the </span>
+  <span class="head font-semibold">Rite-Hite family</span>
+  <span class="opacity-90"> — delivering excellence in safety &amp; equipment.</span>
+</div>
 
-/* =========================================================================
-   Johnson Equipment — Scissor Lifts lead-gen prototype
-   scissorlifts.jequip.com  ·  proof of concept
-   Johnson part numbers are PLACEHOLDERS pending the real cross-reference.
-   ========================================================================= */
-
-const HEIGHTS = [
-  { key: "19", label: "19 ft Electric Scissor Lifts", working: 25, slug: "19-ft-electric-scissor-lifts",
-    blurb: "Compact slab electric lifts for indoor maintenance, retail fit-outs and tight aisles." },
-  { key: "26", label: "26 ft Electric Scissor Lifts", working: 32, slug: "26-ft-electric-scissor-lifts",
-    blurb: "The warehouse workhorse — wider decks and higher capacity for stock, MEP and signage work." },
-  { key: "32", label: "32 ft Electric Scissor Lifts", working: 38, slug: "32-ft-electric-scissor-lifts",
-    blurb: "Mid-rise reach for distribution centers, big-box retail and steel erection support." },
-  { key: "40", label: "40 ft Electric Scissor Lifts", working: 46, slug: "40-ft-electric-scissor-lifts",
-    blurb: "Maximum platform height in the electric class for high-bay and large-volume facilities." },
-];
-
-// [make, model, platformHt, widthIn, capacityLb, powerNote?]
-const RAW = [
-  ["Genie", "GS-1930", 19, 30, 500], ["Genie", "GS-1932", 19, 32, 500],
-  ["Genie", "GS-2632", 26, 32, 500], ["Genie", "GS-2646", 26, 46, 1000],
-  ["Genie", "GS-3232", 32, 32, 550], ["Genie", "GS-3246", 32, 46, 705],
-  ["Genie", "GS-4047", 40, 47, 770], ["Genie", "GS-4069", 40, 69, 1500],
-  ["JLG", "1930ES", 19, 30, 500], ["JLG", "ES1932", 19, 32, 550],
-  ["JLG", "AE1932", 19, 32, 550], ["JLG", "ES2632", 26, 32, 500],
-  ["JLG", "2646ES", 26, 46, 1000], ["JLG", "ES3246", 32, 46, 705],
-  ["JLG", "4045R", 40, 45, 770], ["JLG", "4069LE", 40, 69, 1430],
-  ["Skyjack", "SJ III 3219", 19, 32, 550], ["Skyjack", "SJ3220", 20, 32, 550],
-  ["Skyjack", "SJ III 3226", 26, 32, 550], ["Skyjack", "SJ III 4626", 26, 46, 772],
-  ["Skyjack", "SJ4632", 32, 46, 772], ["Skyjack", "SJ4732", 32, 47, 772],
-  ["Skyjack", "SJ4740", 40, 47, 772], ["Skyjack", "SJ6832 RTE", 40, 68, 1500, "Electric · rough terrain"],
-  ["MEC", "1930SE", 19, 30, 550], ["MEC", "Micro 19", 19, 23, 500],
-  ["MEC", "2632SE Slim", 26, 32, 600], ["MEC", "3232+", 32, 32, 600],
-  ["MEC", "3346+", 33, 46, 800], ["MEC", "4046+", 40, 46, 800],
-  ["MEC", "4069ERT", 40, 69, 1430, "Electric · rough terrain"],
-  ["Snorkel", "S3219E", 19, 32, 500], ["Snorkel", "S3226E", 26, 32, 550],
-  ["Snorkel", "S4732E", 32, 47, 750],
-  ["Haulotte", "Compact 1930E", 19, 32, 507], ["Haulotte", "Compact 2632E", 26, 32, 550],
-  ["Haulotte", "Compact 12DX", 32, 46, 772], ["Haulotte", "Compact 14", 40, 46, 770],
-  ["LGMG", "AS1932E", 19, 32, 550], ["LGMG", "AS2632E", 26, 32, 600],
-  ["LGMG", "AS3246E", 32, 46, 705], ["LGMG", "AS4047E", 40, 47, 770],
-  ["Dingli", "JCPT0607DC", 19, 30, 530], ["Dingli", "JCPT1218DC", 40, 47, 770],
-  ["Sinoboom", "1932SE", 19, 32, 550], ["Sinoboom", "2632E", 26, 32, 600],
-  ["Sinoboom", "3246E", 32, 46, 705], ["Sinoboom", "4047E", 40, 47, 770],
-];
-
-const BRAND_HEX = {
-  Genie: "#1d4ed8", JLG: "#ea580c", Skyjack: "#0891b2", MEC: "#16a34a",
-  Snorkel: "#7c3aed", Haulotte: "#db2777", LGMG: "#0d9488", Dingli: "#ca8a04",
-  Sinoboom: "#4f46e5",
-};
-
-const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-const norm = (s) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
-const bucket = (h) => (h <= 20 ? "19" : h <= 29 ? "26" : h <= 35 ? "32" : "40");
-
-const MODELS = RAW.map(([make, model, ph, w, cap, power], i) => {
-  const hk = bucket(ph);
-  return {
-    id: i + 1, make, model, platformHt: ph, workingHt: ph + 6, width: w, capacity: cap,
-    power: power || "Electric (DC)", driveHeight: "Full height", heightKey: hk,
-    slug: slugify(`${make}-${model}`),
-    jePN: `JE-SL-${hk}${String(w).padStart(2, "0")}`, // placeholder cross-reference
-  };
-});
-
-const findModel = (slug) => MODELS.find((m) => m.slug === slug);
-const inHeight = (hk) => MODELS.filter((m) => m.heightKey === hk);
-
-/* ----------------------------------------------------------------------- */
-/* Atoms                                                                    */
-/* ----------------------------------------------------------------------- */
-
-const Eyebrow = ({ children, light }) => (
-  <div className="font-display flex items-center gap-2 text-xs font-600 uppercase tracking-widest"
-    style={{ letterSpacing: "0.18em", color: light ? "#fbbf24" : "#1e40af" }}>
-    <span className="inline-block h-2 w-2" style={{ background: "#fbbf24" }} />
-    {children}
-  </div>
-);
-
-const HazardRule = ({ h = 6 }) => (
-  <div style={{ height: h, background: "repeating-linear-gradient(45deg,#0f172a 0 12px,#fbbf24 12px 24px)" }} />
-);
-
-const PN = ({ children, tone = "slate" }) => {
-  const map = {
-    slate: { bg: "#f1f5f9", fg: "#0f172a", bd: "#cbd5e1" },
-    blue: { bg: "#1e3a8a", fg: "#fff", bd: "#1e3a8a" },
-    amber: { bg: "#fef3c7", fg: "#78350f", bd: "#fcd34d" },
-  }[tone];
-  return (
-    <span className="font-pn inline-flex items-center rounded px-2 py-0.5 text-sm font-500"
-      style={{ background: map.bg, color: map.fg, border: `1px solid ${map.bd}` }}>
-      {children}
+<!-- Utility bar -->
+<div class="border-b" style="border-color:var(--line);background:var(--mist)">
+  <div class="max-w-6xl mx-auto px-5 h-9 flex items-center justify-between text-[12px]" style="color:var(--steel)">
+    <span class="hidden sm:flex items-center gap-2 head font-semibold tracking-wide">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      (800) 555-0142
     </span>
-  );
-};
+    <nav class="flex items-center gap-5 ml-auto head font-semibold uppercase tracking-wide">
+      <a href="#" class="hover:text-[color:var(--brand)]">Merchandise</a>
+      <a href="#" class="hover:text-[color:var(--brand)]">Careers</a>
+      <a href="#" class="hover:text-[color:var(--brand)] hidden sm:inline">Catalog</a>
+      <a href="#" class="hover:text-[color:var(--brand)]">Blog</a>
+    </nav>
+  </div>
+</div>
 
-const BrandDot = ({ make }) => (
-  <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ background: BRAND_HEX[make] || "#64748b" }} />
-);
-
-const Btn = ({ children, onClick, variant = "primary", className = "", size = "md", ...rest }) => {
-  const sizes = { md: "px-5 py-2.5 text-sm", lg: "px-6 py-3 text-base", sm: "px-3.5 py-2 text-sm" };
-  const base = "font-display inline-flex items-center justify-center gap-2 font-600 uppercase tracking-wide rounded transition-all duration-150 cursor-pointer";
-  const styles = {
-    primary: { background: "#1e40af", color: "#fff" },
-    amber: { background: "#fbbf24", color: "#0f172a" },
-    dark: { background: "#0f172a", color: "#fff" },
-    ghost: { background: "transparent", color: "#1e40af", border: "1px solid #cbd5e1" },
-    ghostLight: { background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,0.35)" },
-  }[variant];
-  return (
-    <button onClick={onClick} className={`${base} ${sizes[size]} ${className} hover:opacity-90`}
-      style={{ ...styles, letterSpacing: "0.04em" }} {...rest}>
-      {children}
-    </button>
-  );
-};
-
-/* ----------------------------------------------------------------------- */
-/* Search box (used in hero + header)                                       */
-/* ----------------------------------------------------------------------- */
-
-function SearchBox({ onPick, big }) {
-  const [q, setQ] = useState("");
-  const [open, setOpen] = useState(false);
-  const ref = useRef(null);
-
-  const results = useMemo(() => {
-    if (q.trim().length < 1) return [];
-    const n = norm(q);
-    return MODELS.filter((m) => norm(`${m.make}${m.model}`).includes(n)).slice(0, 7);
-  }, [q]);
-
-  useEffect(() => {
-    const h = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
-    document.addEventListener("mousedown", h);
-    return () => document.removeEventListener("mousedown", h);
-  }, []);
-
-  return (
-    <div ref={ref} className="relative w-full">
-      <div className="flex items-center gap-2 rounded bg-white"
-        style={{ border: "1px solid #cbd5e1", padding: big ? "6px 6px 6px 16px" : "4px 4px 4px 12px", boxShadow: "0 1px 2px rgba(15,23,42,0.06)" }}>
-        <Search size={big ? 22 : 18} color="#475569" className="shrink-0" />
-        <input
-          value={q}
-          onChange={(e) => { setQ(e.target.value); setOpen(true); }}
-          onFocus={() => setOpen(true)}
-          placeholder={big ? "Try “GS-1930”, “JLG 2632ES”, or “Skyjack”…" : "Search a competitor model…"}
-          className="font-pn w-full bg-transparent outline-none"
-          style={{ fontSize: big ? 17 : 14, color: "#0f172a", padding: "6px 0" }}
-        />
-        <Btn size={big ? "md" : "sm"} variant="amber" onClick={() => { if (results[0]) { onPick(results[0]); setOpen(false); } }}>
-          {big ? "Find my match" : "Go"} <ArrowRight size={16} />
-        </Btn>
-      </div>
-
-      {open && results.length > 0 && (
-        <div className="absolute left-0 right-0 z-30 mt-2 overflow-hidden rounded bg-white"
-          style={{ border: "1px solid #cbd5e1", boxShadow: "0 16px 40px rgba(15,23,42,0.18)" }}>
-          {results.map((m) => (
-            <button key={m.id} onMouseDown={() => { onPick(m); setOpen(false); }}
-              className="flex w-full items-center justify-between px-4 py-2.5 text-left hover:bg-slate-50">
-              <span className="flex items-center gap-3">
-                <BrandDot make={m.make} />
-                <span className="font-pn text-sm text-slate-900">{m.make} {m.model}</span>
-              </span>
-              <span className="text-xs text-slate-500">{m.workingHt} ft working · {m.capacity} lb</span>
-            </button>
-          ))}
-        </div>
-      )}
-      {open && q.trim().length >= 1 && results.length === 0 && (
-        <div className="absolute left-0 right-0 z-30 mt-2 rounded bg-white px-4 py-3 text-sm text-slate-600"
-          style={{ border: "1px solid #cbd5e1", boxShadow: "0 16px 40px rgba(15,23,42,0.18)" }}>
-          No match yet — <button onMouseDown={() => onPick("__quote__")} className="font-600 text-blue-700 underline">request a quote</button> and a specialist will source it.
-        </div>
-      )}
-    </div>
-  );
-}
-
-/* ----------------------------------------------------------------------- */
-/* Header / Footer                                                          */
-/* ----------------------------------------------------------------------- */
-
-function AddressBar() {
-  return (
-    <div className="flex items-center gap-2 bg-slate-200 px-3 py-1.5 text-xs text-slate-600">
-      <span className="flex gap-1.5">
-        <span className="h-2.5 w-2.5 rounded-full bg-slate-400" />
-        <span className="h-2.5 w-2.5 rounded-full bg-slate-400" />
-        <span className="h-2.5 w-2.5 rounded-full bg-slate-400" />
+<!-- Header -->
+<header class="sticky top-0 z-30 bg-white border-b" style="border-color:var(--line)">
+  <div class="max-w-6xl mx-auto px-5 h-[74px] flex items-center justify-between gap-6">
+    <a href="#" class="flex items-center gap-3 shrink-0">
+      <span class="head font-extrabold text-white grid place-items-center" style="background:var(--brand);width:38px;height:38px;border-radius:3px;font-size:15px">RH</span>
+      <span class="leading-tight">
+        <span class="head font-extrabold tracking-tight block" style="font-size:1.05rem;color:var(--ink)">JOHNSON EQUIPMENT</span>
+        <span class="head font-semibold uppercase tracking-[.2em] block" style="font-size:.62rem;color:var(--steel)">Scissor Lifts</span>
       </span>
-      <div className="ml-2 flex flex-1 items-center gap-2 rounded bg-white px-3 py-1 font-pn text-slate-700"
-        style={{ border: "1px solid #cbd5e1" }}>
-        <ShieldCheck size={13} color="#16a34a" /> scissorlifts.jequip.com
-      </div>
-    </div>
-  );
-}
+    </a>
 
-function Header({ nav, onQuote }) {
-  return (
-    <header className="sticky top-0 z-20">
-      <div style={{ background: "#0f172a" }} className="text-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
-          <button onClick={() => nav({ page: "home" })} className="flex items-center gap-3 text-left">
-            <div className="flex h-9 w-9 items-center justify-center rounded" style={{ background: "#1e40af" }}>
-              <ArrowUpRight size={20} color="#fbbf24" />
-            </div>
-            <div className="leading-tight">
-              <div className="font-display text-base font-700 tracking-wide">JOHNSON EQUIPMENT</div>
-              <div className="font-display text-xs font-500 uppercase tracking-widest" style={{ color: "#fbbf24", letterSpacing: "0.2em" }}>
-                Scissor Lifts
-              </div>
-            </div>
-          </button>
-
-          <nav className="hidden items-center gap-7 md:flex">
-            {HEIGHTS.map((h) => (
-              <button key={h.key} onClick={() => nav({ page: "category", key: h.key })}
-                className="font-display text-sm font-500 uppercase tracking-wide text-slate-200 hover:text-white"
-                style={{ letterSpacing: "0.05em" }}>
-                {h.key}′
-              </button>
-            ))}
-            <span className="flex items-center gap-2 font-pn text-sm text-slate-300">
-              <Phone size={14} color="#fbbf24" /> (800) 555-0142
-            </span>
-            <Btn variant="amber" size="sm" onClick={onQuote}>Get a quote</Btn>
-          </nav>
-          <button onClick={onQuote} className="md:hidden"><Menu color="#fff" /></button>
-        </div>
-      </div>
-      <HazardRule h={4} />
-    </header>
-  );
-}
-
-function Footer({ nav }) {
-  return (
-    <footer style={{ background: "#0f172a" }} className="mt-20 text-slate-300">
-      <HazardRule h={4} />
-      <div className="mx-auto grid max-w-6xl gap-8 px-5 py-12 md:grid-cols-4">
-        <div className="md:col-span-2">
-          <div className="font-display text-lg font-700 text-white">JOHNSON EQUIPMENT · SCISSOR LIFTS</div>
-          <p className="mt-3 max-w-md text-sm text-slate-400">
-            Part of the Rite-Hite family. Six decades in material handling, now matching electric scissor
-            lifts to the competitor models you already know — with a service network that actually shows up.
-          </p>
-          <div className="mt-4 flex items-center gap-2 font-pn text-sm">
-            <Phone size={15} color="#fbbf24" /> (800) 555-0142
+    <nav class="hidden lg:flex items-center gap-7">
+      <div class="dropdown relative">
+        <a href="#" class="nav-link flex items-center gap-1">Scissor Lifts
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></a>
+        <div class="menu absolute left-0 top-full pt-3">
+          <div class="bg-white border shadow-xl rounded-sm py-2 w-56" style="border-color:var(--line)">
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[color:var(--mist)]">19 ft Electric Scissor Lifts</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[color:var(--mist)]">26 ft Electric Scissor Lifts</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[color:var(--mist)]">32 ft Electric Scissor Lifts</a>
+            <a href="#" class="block px-4 py-2 text-sm hover:bg-[color:var(--mist)]">40 ft Electric Scissor Lifts</a>
           </div>
         </div>
-        <div>
-          <div className="font-display mb-3 text-xs font-600 uppercase tracking-widest text-slate-500">By Height</div>
-          {HEIGHTS.map((h) => (
-            <button key={h.key} onClick={() => nav({ page: "category", key: h.key })}
-              className="block py-1 text-sm text-slate-300 hover:text-white">{h.label}</button>
-          ))}
-        </div>
-        <div>
-          <div className="font-display mb-3 text-xs font-600 uppercase tracking-widest text-slate-500">Brands We Match</div>
-          <div className="text-sm text-slate-400">Genie · JLG · Skyjack · MEC · Snorkel · Haulotte · LGMG · Dingli · Sinoboom</div>
-        </div>
       </div>
-      <div className="border-t border-slate-800 px-5 py-5 text-center text-xs text-slate-500">
-        Prototype · scissorlifts.jequip.com · brand names and model numbers are property of their respective owners and referenced for comparison only.
-      </div>
-    </footer>
-  );
-}
+      <a href="#" class="nav-link">Brands We Match</a>
+      <a href="#" class="nav-link">Why Johnson</a>
+      <a href="#" class="nav-link">Service</a>
+      <a href="#" class="nav-link">Contact</a>
+    </nav>
 
-/* ----------------------------------------------------------------------- */
-/* Trust strip                                                              */
-/* ----------------------------------------------------------------------- */
-
-const TRUST = [
-  { icon: Clock, t: "60 years", s: "in material handling" },
-  { icon: Building2, t: "Rite-Hite family", s: "national backing" },
-  { icon: MapPin, t: "TX · TN · OK · AR · MS", s: "+ Mexico service network" },
-  { icon: ShieldCheck, t: "Fortune 500 trusted", s: "food, retail & logistics" },
-];
-
-function TrustStrip() {
-  return (
-    <div className="grid grid-cols-2 gap-px md:grid-cols-4" style={{ background: "#e2e8f0" }}>
-      {TRUST.map((x, i) => (
-        <div key={i} className="flex items-center gap-3 bg-white px-5 py-5">
-          <x.icon size={22} color="#1e40af" className="shrink-0" />
-          <div>
-            <div className="font-display text-sm font-700 text-slate-900">{x.t}</div>
-            <div className="text-xs text-slate-500">{x.s}</div>
-          </div>
-        </div>
-      ))}
+    <a href="#quote" class="btn btn-red px-5 py-2.5 text-sm hidden sm:inline-flex">Request a Quote</a>
+    <button id="burger" class="lg:hidden p-2" aria-label="Menu">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+  <div id="mobile" class="lg:hidden hidden border-t" style="border-color:var(--line)">
+    <div class="px-5 py-3 flex flex-col gap-1">
+      <a href="#" class="py-2 nav-link">Scissor Lifts</a>
+      <a href="#" class="py-2 nav-link">Brands We Match</a>
+      <a href="#" class="py-2 nav-link">Why Johnson</a>
+      <a href="#" class="py-2 nav-link">Service</a>
+      <a href="#" class="py-2 nav-link">Contact</a>
+      <a href="#quote" class="btn btn-red px-5 py-2.5 text-sm mt-2 justify-center">Request a Quote</a>
     </div>
-  );
-}
+  </div>
+</header>
 
-/* ----------------------------------------------------------------------- */
-/* SEO inspector — sells the programmatic structure to the stakeholder      */
-/* ----------------------------------------------------------------------- */
-
-function SeoPanel({ kind, model, height }) {
-  let slug, title, h1, desc;
-  if (kind === "model") {
-    slug = `/scissor-lift/${model.slug}`;
-    title = `${model.make} ${model.model} — Comparable Electric Scissor Lift | Johnson Equipment`;
-    h1 = `${model.make} ${model.model} — Comparable Johnson Equipment Scissor Lift`;
-    desc = `Comparing the ${model.make} ${model.model}? See the comparable ${model.workingHt} ft electric scissor lift from Johnson Equipment, matched on capacity and footprint. Get a fast quote.`;
-  } else {
-    slug = `/${height.slug}`;
-    title = `${height.label} — Compare Models & Get a Quote | Johnson Equipment`;
-    h1 = height.label;
-    desc = `Compare every major ${height.key} ft electric scissor lift — Genie, JLG, Skyjack, MEC and more — and get a comparable Johnson Equipment unit quoted fast.`;
-  }
-  const idx = kind === "model" ? model.id : 50 + HEIGHTS.findIndex((h) => h.key === height.key);
-  const Row = ({ k, v }) => (
-    <div className="grid grid-cols-[110px_1fr] gap-3 py-1.5">
-      <div className="font-display text-xs font-600 uppercase tracking-wider text-amber-300">{k}</div>
-      <div className="font-pn text-xs text-slate-200 break-words">{v}</div>
-    </div>
-  );
-  return (
-    <div className="my-6 rounded-lg p-5" style={{ background: "#0f172a", border: "1px solid #1e293b" }}>
-      <div className="mb-3 flex items-center gap-2">
-        <Code2 size={16} color="#fbbf24" />
-        <span className="font-display text-sm font-700 uppercase tracking-widest text-white">SEO layer</span>
-        <span className="ml-auto font-pn text-xs text-slate-400">page {idx} of {MODELS.length + HEIGHTS.length} generated from your list</span>
-      </div>
-      <div className="divide-y divide-slate-800">
-        <Row k="URL" v={`scissorlifts.jequip.com${slug}`} />
-        <Row k="Title" v={title} />
-        <Row k="H1" v={h1} />
-        <Row k="Meta" v={desc} />
-        <Row k="Schema" v={kind === "model" ? "Product + Offer (price on request) + Brand comparison" : "CollectionPage + ItemList"} />
-      </div>
-    </div>
-  );
-}
-
-/* ----------------------------------------------------------------------- */
-/* Home                                                                     */
-/* ----------------------------------------------------------------------- */
-
-function Home({ nav, onPick, onQuote }) {
-  return (
+<!-- Hero -->
+<section class="hero-bg text-white relative">
+  <div class="max-w-6xl mx-auto px-5 py-16 md:py-24 grid lg:grid-cols-[1.1fr_.9fr] gap-10 items-center">
     <div>
-      {/* hero */}
-      <section style={{ background: "#0f172a" }} className="relative overflow-hidden text-white">
-        <div className="absolute inset-0 opacity-10"
-          style={{ background: "repeating-linear-gradient(45deg,#fbbf24 0 2px,transparent 2px 22px)" }} />
-        <div className="relative mx-auto max-w-6xl px-5 py-16 md:py-20">
-          <Eyebrow light>Electric Scissor Lifts · 19–40 ft · Slab</Eyebrow>
-          <h1 className="font-display mt-4 max-w-3xl text-4xl font-700 leading-[1.05] md:text-5xl">
-            Shopping a Genie, JLG, Skyjack or MEC scissor lift?
-            <span style={{ color: "#fbbf24" }}> Get the comparable Johnson unit — quoted fast.</span>
-          </h1>
-          <p className="mt-5 max-w-2xl text-lg text-slate-300">
-            Search the competitor make or model you’re comparing. We line up an electric scissor lift with the
-            same working height, capacity and footprint — backed by 60 years of service you can actually reach.
-          </p>
-          <div className="mt-8 max-w-2xl">
-            <SearchBox big onPick={onPick} />
-            <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-slate-400">
-              <span>Popular:</span>
-              {["GS-1930", "2646ES", "SJ4632", "GS-4047"].map((s) => {
-                const m = MODELS.find((x) => norm(x.model).includes(norm(s)));
-                return (
-                  <button key={s} onClick={() => m && onPick(m)}
-                    className="font-pn rounded px-2 py-0.5 text-slate-200 hover:text-white"
-                    style={{ border: "1px solid rgba(255,255,255,0.2)" }}>{s}</button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-        <HazardRule />
-      </section>
-
-      <TrustStrip />
-
-      {/* height categories */}
-      <section className="mx-auto max-w-6xl px-5 py-14">
-        <Eyebrow>Browse by platform height</Eyebrow>
-        <h2 className="font-display mt-3 text-3xl font-700 text-slate-900">Find your class, find your match</h2>
-        <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {HEIGHTS.map((h) => (
-            <button key={h.key} onClick={() => nav({ page: "category", key: h.key })}
-              className="group flex flex-col rounded-lg bg-white p-6 text-left transition-all hover:-translate-y-1"
-              style={{ border: "1px solid #e2e8f0", boxShadow: "0 1px 2px rgba(15,23,42,0.05)" }}>
-              <div className="font-display text-5xl font-700 text-slate-900">{h.key}<span className="text-2xl" style={{ color: "#1e40af" }}>′</span></div>
-              <div className="font-display mt-1 text-xs font-600 uppercase tracking-widest text-slate-400">{h.working} ft working height</div>
-              <p className="mt-3 flex-1 text-sm text-slate-600">{h.blurb}</p>
-              <div className="mt-4 flex items-center gap-1 font-display text-sm font-600 uppercase tracking-wide text-blue-700">
-                {inHeight(h.key).length} models <ChevronRight size={16} className="transition-transform group-hover:translate-x-1" />
-              </div>
-            </button>
-          ))}
-        </div>
-      </section>
-
-      {/* how it works */}
-      <section style={{ background: "#f8fafc" }} className="border-y" >
-        <div className="mx-auto max-w-6xl px-5 py-14">
-          <Eyebrow>How it works</Eyebrow>
-          <h2 className="font-display mt-3 text-3xl font-700 text-slate-900">Three steps to a quote</h2>
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            {[
-              { t: "Find your model", s: "Search the competitor make or model you’re comparing or already running." },
-              { t: "See the match", s: "We line up a Johnson Equipment unit with the same height, capacity and footprint." },
-              { t: "Get quoted", s: "One short form goes straight to your lift specialist for pricing and lead time." },
-            ].map((x, i) => (
-              <div key={i} className="rounded-lg bg-white p-6" style={{ border: "1px solid #e2e8f0" }}>
-                <div className="font-display text-3xl font-700" style={{ color: "#fbbf24" }}>0{i + 1}</div>
-                <div className="font-display mt-2 text-lg font-700 text-slate-900">{x.t}</div>
-                <p className="mt-2 text-sm text-slate-600">{x.s}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA band */}
-      <section className="mx-auto my-14 max-w-6xl px-5">
-        <div className="overflow-hidden rounded-xl" style={{ background: "#1e40af" }}>
-          <div className="flex flex-col items-start justify-between gap-5 p-8 md:flex-row md:items-center">
-            <div>
-              <h3 className="font-display text-2xl font-700 text-white">Already know the model you need replaced?</h3>
-              <p className="mt-1 text-blue-100">Skip the search. Tell us the unit and we’ll quote a comparable lift today.</p>
-            </div>
-            <Btn variant="amber" size="lg" onClick={onQuote}>Request a quote <ArrowRight size={18} /></Btn>
-          </div>
-          <HazardRule h={5} />
-        </div>
-      </section>
-    </div>
-  );
-}
-
-/* ----------------------------------------------------------------------- */
-/* Category page                                                            */
-/* ----------------------------------------------------------------------- */
-
-function Category({ height, nav, onPick, showSeo }) {
-  const rows = inHeight(height.key);
-  return (
-    <div className="mx-auto max-w-6xl px-5 py-10">
-      <button onClick={() => nav({ page: "home" })} className="mb-6 flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800">
-        <ChevronLeft size={16} /> All heights
-      </button>
-      <Eyebrow>Electric · {height.working} ft working height</Eyebrow>
-      <h1 className="font-display mt-3 text-4xl font-700 text-slate-900">{height.label}</h1>
-      <p className="mt-3 max-w-3xl text-lg text-slate-600">
-        Compare every major {height.key} ft electric scissor lift below. Pick the competitor model you’re
-        running or pricing, and we’ll quote a comparable Johnson Equipment unit — matched on the specs that matter.
-      </p>
-
-      {showSeo && <SeoPanel kind="category" height={height} />}
-
-      <div className="mt-8 overflow-hidden rounded-lg bg-white" style={{ border: "1px solid #e2e8f0" }}>
-        <div className="hidden grid-cols-[1.4fr_0.9fr_0.9fr_0.7fr_auto] gap-4 px-5 py-3 md:grid"
-          style={{ background: "#f1f5f9" }}>
-          {["Model", "Working height", "Capacity", "Width", ""].map((h, i) => (
-            <div key={i} className="font-display text-xs font-600 uppercase tracking-widest text-slate-500">{h}</div>
-          ))}
-        </div>
-        {rows.map((m) => (
-          <button key={m.id} onClick={() => onPick(m)}
-            className="grid w-full grid-cols-2 items-center gap-4 border-t px-5 py-4 text-left hover:bg-slate-50 md:grid-cols-[1.4fr_0.9fr_0.9fr_0.7fr_auto]"
-            style={{ borderColor: "#f1f5f9" }}>
-            <div className="flex items-center gap-3">
-              <BrandDot make={m.make} />
-              <div>
-                <div className="text-xs uppercase tracking-wide text-slate-400">{m.make}</div>
-                <div className="font-pn text-sm font-500 text-slate-900">{m.model}</div>
-              </div>
-            </div>
-            <div className="font-pn text-sm text-slate-700">{m.workingHt} ft</div>
-            <div className="font-pn text-sm text-slate-700">{m.capacity} lb</div>
-            <div className="font-pn text-sm text-slate-700">{m.width}″</div>
-            <div className="col-span-2 mt-2 flex items-center gap-1 font-display text-xs font-600 uppercase tracking-wide text-blue-700 md:col-span-1 md:mt-0 md:justify-end">
-              Compare <ArrowRight size={14} />
-            </div>
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ----------------------------------------------------------------------- */
-/* Model comparison page — the money page                                   */
-/* ----------------------------------------------------------------------- */
-
-function SpecCompare({ m }) {
-  const rows = [
-    ["Working height", `${m.workingHt} ft`, `${m.workingHt} ft`, true],
-    ["Platform height", `${m.platformHt} ft`, `${m.platformHt} ft`, true],
-    ["Platform capacity", `${m.capacity} lb`, `${m.capacity} lb`, true],
-    ["Machine width", `${m.width} in`, `${m.width} in`, true],
-    ["Power", m.power, m.power, true],
-    ["Drive height", m.driveHeight, m.driveHeight, true],
-  ];
-  return (
-    <div className="overflow-hidden rounded-lg bg-white" style={{ border: "1px solid #e2e8f0" }}>
-      <div className="grid grid-cols-[1.1fr_1fr_1fr]" style={{ background: "#f1f5f9" }}>
-        <div className="px-5 py-3 font-display text-xs font-600 uppercase tracking-widest text-slate-500">Spec</div>
-        <div className="px-5 py-3 font-display text-xs font-600 uppercase tracking-widest text-slate-700">{m.make} {m.model}</div>
-        <div className="px-5 py-3 font-display text-xs font-700 uppercase tracking-widest" style={{ background: "#1e40af", color: "#fff" }}>Johnson comparable</div>
-      </div>
-      {rows.map(([k, a, b, match], i) => (
-        <div key={i} className="grid grid-cols-[1.1fr_1fr_1fr] border-t" style={{ borderColor: "#f1f5f9" }}>
-          <div className="px-5 py-3 text-sm font-500 text-slate-500">{k}</div>
-          <div className="font-pn px-5 py-3 text-sm text-slate-800">{a}</div>
-          <div className="font-pn flex items-center gap-2 px-5 py-3 text-sm text-slate-900" style={{ background: "#f8fafc" }}>
-            {match && <Check size={15} color="#16a34a" className="shrink-0" />}{b}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function ModelPage({ m, nav, onPick, onQuote, showSeo }) {
-  const related = inHeight(m.heightKey).filter((x) => x.id !== m.id).slice(0, 4);
-  const height = HEIGHTS.find((h) => h.key === m.heightKey);
-  return (
-    <div className="mx-auto max-w-6xl px-5 py-10">
-      <button onClick={() => nav({ page: "category", key: m.heightKey })} className="mb-6 flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800">
-        <ChevronLeft size={16} /> {height.label}
-      </button>
-
-      <Eyebrow>Cross-reference · {height.working} ft electric</Eyebrow>
-      <h1 className="font-display mt-3 text-3xl font-700 text-slate-900 md:text-4xl">
-        {m.make} {m.model} — comparable Johnson Equipment scissor lift
+      <div class="eyebrow" style="color:#fff;opacity:.85">Electric Scissor Lifts · 19–40 ft</div>
+      <h1 class="head font-extrabold mt-4 leading-[1.07]" style="font-size:clamp(2rem,4.6vw,3.25rem)">
+        Comparing a Genie, JLG, Skyjack or MEC scissor lift?
+        <span style="color:#ff5a5f"> Get the comparable unit from Johnson Equipment.</span>
       </h1>
-      <p className="mt-3 max-w-3xl text-lg text-slate-600">
-        Comparing the {m.make} {m.model}? Here’s the equivalent electric scissor lift from Johnson Equipment —
-        matched on working height, platform capacity and footprint, and backed by service you can actually reach.
+      <p class="mt-5 text-[1.05rem] max-w-xl" style="color:#d4d9dd">
+        Enter the competitor make or model you're pricing. We'll match it to a comparable electric
+        scissor lift and quote it fast — backed by 60 years of service and the Rite-Hite network.
       </p>
 
-      {showSeo && <SeoPanel kind="model" model={m} />}
-
-      {/* interchange card — the signature element */}
-      <div className="mt-8 grid items-stretch gap-4 md:grid-cols-[1fr_auto_1fr]">
-        <div className="rounded-lg p-6" style={{ background: "#fff", border: "1px solid #e2e8f0" }}>
-          <div className="font-display text-xs font-600 uppercase tracking-widest text-slate-400">You’re comparing</div>
-          <div className="mt-2 flex items-center gap-2"><BrandDot make={m.make} />
-            <span className="font-display text-lg font-700 text-slate-900">{m.make}</span></div>
-          <div className="mt-2"><PN>{m.model}</PN></div>
-          <div className="mt-3 text-sm text-slate-500">{m.workingHt} ft working · {m.capacity} lb · {m.width}″ wide</div>
+      <div class="mt-7 max-w-xl relative">
+        <div class="flex items-center gap-2 bg-white rounded-sm p-1.5 pl-4 shadow-lg">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--steel)" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="q" autocomplete="off" placeholder="Try &ldquo;GS-1930&rdquo;, &ldquo;JLG 2632&rdquo;, or &ldquo;Skyjack&rdquo;&hellip;"
+            class="flex-1 outline-none text-[1rem] py-2" style="color:var(--ink)"/>
+          <button class="btn btn-red px-5 py-2.5 text-sm">Find my match</button>
         </div>
-        <div className="flex items-center justify-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full" style={{ background: "#fbbf24" }}>
-            <ArrowLeftRight size={22} color="#0f172a" />
-          </div>
-        </div>
-        <div className="rounded-lg p-6 text-white" style={{ background: "#1e40af" }}>
-          <div className="font-display text-xs font-600 uppercase tracking-widest" style={{ color: "#fbbf24" }}>Johnson comparable</div>
-          <div className="mt-2 font-display text-lg font-700">Johnson Equipment · {m.workingHt} ft electric</div>
-          <div className="mt-2 flex items-center gap-2">
-            <PN tone="amber">{m.jePN}</PN>
-            <span className="rounded px-2 py-0.5 text-xs font-600" style={{ background: "rgba(255,255,255,0.15)" }}>placeholder PN</span>
-          </div>
-          <div className="mt-3 text-sm text-blue-100">Meets or exceeds the {m.model} on every spec below.</div>
-        </div>
+        <div id="results" class="hidden absolute left-0 right-0 mt-2 bg-white rounded-sm shadow-2xl border overflow-hidden z-20" style="border-color:var(--line)"></div>
       </div>
-
-      {/* specs + quote */}
-      <div className="mt-8 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
-        <div>
-          <h2 className="font-display mb-3 text-xl font-700 text-slate-900">Spec-for-spec comparison</h2>
-          <SpecCompare m={m} />
-          <p className="mt-3 text-xs text-slate-400">
-            Representative specs for this proof of concept. Final Johnson Equipment model and verified figures
-            drop in once the cross-reference is confirmed.
-          </p>
-
-          <div className="mt-8 rounded-lg p-6" style={{ background: "#f8fafc", border: "1px solid #e2e8f0" }}>
-            <h3 className="font-display text-lg font-700 text-slate-900">Why buy the comparable from Johnson</h3>
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              {[
-                [Wrench, "Service that shows up", "Factory-trained techs across five states, not a drop-ship listing."],
-                [Clock, "60 years of uptime", "Six decades keeping Fortune 500 docks and lifts running."],
-                [ShieldCheck, "Rite-Hite backing", "National parts and safety engineering behind every quote."],
-                [Phone, "A real specialist", "One named contact who quotes, schedules and supports the unit."],
-              ].map(([Icon, t, s], i) => (
-                <div key={i} className="flex gap-3">
-                  <Icon size={18} color="#1e40af" className="mt-0.5 shrink-0" />
-                  <div><div className="font-display text-sm font-700 text-slate-900">{t}</div>
-                    <div className="text-sm text-slate-600">{s}</div></div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* sticky quote rail */}
-        <div>
-          <div className="sticky top-28 rounded-lg p-6" style={{ background: "#0f172a" }}>
-            <div className="font-display text-xs font-600 uppercase tracking-widest" style={{ color: "#fbbf24" }}>Get pricing</div>
-            <h3 className="font-display mt-1 text-xl font-700 text-white">Quote the comparable to your {m.model}</h3>
-            <p className="mt-2 text-sm text-slate-300">Goes straight to your Johnson Equipment lift specialist. No call center.</p>
-            <Btn variant="amber" size="lg" className="mt-5 w-full" onClick={() => onQuote(m)}>
-              Request my quote <ArrowRight size={18} />
-            </Btn>
-            <div className="mt-4 flex items-center gap-2 font-pn text-sm text-slate-400">
-              <Phone size={14} color="#fbbf24" /> or call (800) 555-0142
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* related */}
-      <div className="mt-12">
-        <h2 className="font-display mb-4 text-xl font-700 text-slate-900">Also in {height.key} ft</h2>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {related.map((r) => (
-            <button key={r.id} onClick={() => onPick(r)} className="rounded-lg bg-white p-4 text-left hover:-translate-y-0.5"
-              style={{ border: "1px solid #e2e8f0" }}>
-              <div className="flex items-center gap-2"><BrandDot make={r.make} />
-                <span className="text-xs uppercase tracking-wide text-slate-400">{r.make}</span></div>
-              <div className="font-pn mt-1 text-sm font-500 text-slate-900">{r.model}</div>
-              <div className="mt-1 text-xs text-slate-500">{r.capacity} lb · {r.width}″</div>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <p className="mt-10 text-xs text-slate-400">
-        {m.make}® and {m.model} are trademarks of their respective owners. Johnson Equipment is not affiliated
-        with or endorsed by {m.make}; the model is referenced for comparison only.
-      </p>
-    </div>
-  );
-}
-
-/* ----------------------------------------------------------------------- */
-/* Quote modal                                                              */
-/* ----------------------------------------------------------------------- */
-
-function QuoteModal({ open, onClose, model }) {
-  const [sent, setSent] = useState(false);
-  const [f, setF] = useState({ name: "", company: "", email: "", phone: "", zip: "", notes: "" });
-  useEffect(() => { if (open) { setSent(false); setF({ name: "", company: "", email: "", phone: "", zip: "", notes: "" }); } }, [open, model]);
-  if (!open) return null;
-
-  const Field = ({ k, label, ph, half, area }) => (
-    <label className={half ? "block" : "col-span-2 block"}>
-      <span className="font-display mb-1 block text-xs font-600 uppercase tracking-wider text-slate-500">{label}</span>
-      {area ? (
-        <textarea rows={3} value={f[k]} onChange={(e) => setF((p) => ({ ...p, [k]: e.target.value }))} placeholder={ph}
-          className="w-full rounded px-3 py-2 text-sm outline-none" style={{ border: "1px solid #cbd5e1" }} />
-      ) : (
-        <input value={f[k]} onChange={(e) => setF((p) => ({ ...p, [k]: e.target.value }))} placeholder={ph}
-          className="w-full rounded px-3 py-2 text-sm outline-none" style={{ border: "1px solid #cbd5e1" }} />
-      )}
-    </label>
-  );
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center p-0 md:items-center md:p-6"
-      style={{ background: "rgba(15,23,42,0.6)" }} onMouseDown={onClose}>
-      <div onMouseDown={(e) => e.stopPropagation()}
-        className="w-full max-w-lg overflow-hidden rounded-t-2xl bg-white md:rounded-2xl"
-        style={{ maxHeight: "92vh", overflowY: "auto" }}>
-        <div className="flex items-center justify-between px-6 py-4" style={{ background: "#0f172a" }}>
-          <div>
-            <div className="font-display text-xs font-600 uppercase tracking-widest" style={{ color: "#fbbf24" }}>Request a quote</div>
-            <div className="font-display text-lg font-700 text-white">
-              {model ? `Comparable to ${model.make} ${model.model}` : "Electric scissor lift"}
-            </div>
-          </div>
-          <button onClick={onClose}><X color="#94a3b8" /></button>
-        </div>
-
-        {sent ? (
-          <div className="px-6 py-12 text-center">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full" style={{ background: "#dcfce7" }}>
-              <Check size={28} color="#16a34a" />
-            </div>
-            <h3 className="font-display mt-4 text-2xl font-700 text-slate-900">Quote request sent</h3>
-            <p className="mx-auto mt-2 max-w-sm text-slate-600">
-              This goes straight to your Johnson Equipment lift specialist — not a call center. Expect pricing
-              and lead time {model ? `on a comparable to the ${model.model} ` : ""}within one business day.
-            </p>
-            <Btn className="mt-6" onClick={onClose}>Done</Btn>
-          </div>
-        ) : (
-          <div className="px-6 py-5">
-            {model && (
-              <div className="mb-4 flex items-center gap-2 rounded-lg px-4 py-3" style={{ background: "#eff6ff" }}>
-                <ArrowLeftRight size={16} color="#1e40af" />
-                <span className="text-sm text-slate-700">Matching a comparable unit to your</span>
-                <PN>{model.model}</PN>
-              </div>
-            )}
-            <div className="grid grid-cols-2 gap-3">
-              <Field k="name" label="Name" ph="Jordan Smith" half />
-              <Field k="company" label="Company" ph="Acme Logistics" half />
-              <Field k="email" label="Email" ph="jordan@acme.com" half />
-              <Field k="phone" label="Phone" ph="(214) 555-0142" half />
-              <Field k="zip" label="ZIP / job site" ph="75081" half />
-              <Field k="notes" label="Anything else?" ph="Qty, timeline, rental vs purchase…" area />
-            </div>
-            <Btn variant="amber" size="lg" className="mt-4 w-full" onClick={() => setSent(true)}>
-              Send to my specialist <ArrowRight size={18} />
-            </Btn>
-            <p className="mt-3 text-center text-xs text-slate-400">Prototype — no data is submitted or stored.</p>
-          </div>
-        )}
+      <div class="mt-3 text-sm flex flex-wrap gap-2 items-center" style="color:#aab2b8">
+        Popular:
+        <a href="#" class="underline decoration-dotted hover:text-white">GS-1930</a>
+        <a href="#" class="underline decoration-dotted hover:text-white">2646ES</a>
+        <a href="#" class="underline decoration-dotted hover:text-white">SJ4632</a>
+        <a href="#" class="underline decoration-dotted hover:text-white">GS-4047</a>
       </div>
     </div>
-  );
-}
 
-/* ----------------------------------------------------------------------- */
-/* App                                                                      */
-/* ----------------------------------------------------------------------- */
-
-function App() {
-  const [route, setRoute] = useState({ page: "home" });
-  const [quote, setQuote] = useState({ open: false, model: null });
-  const [showSeo, setShowSeo] = useState(false);
-  const scroller = useRef(null);
-
-  useEffect(() => {
-    const id = "je-fonts";
-    if (!document.getElementById(id)) {
-      const l = document.createElement("link");
-      l.id = id; l.rel = "stylesheet";
-      l.href = "https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap";
-      document.head.appendChild(l);
-      const s = document.createElement("style");
-      s.textContent = `
-        .je-root,.je-root input,.je-root textarea,.je-root button{font-family:'Inter',system-ui,sans-serif;}
-        .je-root .font-display{font-family:'Oswald','Inter',sans-serif;}
-        .je-root .font-pn{font-family:'IBM Plex Mono',ui-monospace,monospace;}
-        .je-root .font-500{font-weight:500;} .je-root .font-600{font-weight:600;} .je-root .font-700{font-weight:700;}
-        @media (prefers-reduced-motion: reduce){.je-root *{transition:none!important;animation:none!important;}}
-      `;
-      document.head.appendChild(s);
-    }
-  }, []);
-
-  const nav = (r) => { setRoute(r); if (scroller.current) scroller.current.scrollTop = 0; };
-  const pick = (m) => { if (m === "__quote__") setQuote({ open: true, model: null }); else nav({ page: "model", slug: m.slug }); };
-  const openQuote = (m) => setQuote({ open: true, model: m && m.slug ? m : null });
-
-  const model = route.page === "model" ? findModel(route.slug) : null;
-  const height = route.page === "category" ? HEIGHTS.find((h) => h.key === route.key) : null;
-
-  return (
-    <div className="je-root" style={{ background: "#fff", color: "#0f172a" }}>
-      <AddressBar />
-      <div ref={scroller} style={{ maxHeight: "calc(100vh - 33px)", overflowY: "auto" }}>
-        <Header nav={nav} onQuote={() => openQuote(null)} />
-
-        {route.page === "home" && <Home nav={nav} onPick={pick} onQuote={() => openQuote(null)} />}
-        {route.page === "category" && height && <Category height={height} nav={nav} onPick={pick} showSeo={showSeo} />}
-        {route.page === "model" && model && <ModelPage m={model} nav={nav} onPick={pick} onQuote={openQuote} showSeo={showSeo} />}
-
-        <Footer nav={nav} />
-      </div>
-
-      {/* stakeholder SEO toggle */}
-      <button onClick={() => setShowSeo((s) => !s)}
-        className="fixed bottom-5 right-5 z-40 flex items-center gap-2 rounded-full px-4 py-2.5 font-display text-xs font-600 uppercase tracking-wide shadow-lg"
-        style={{ background: showSeo ? "#fbbf24" : "#0f172a", color: showSeo ? "#0f172a" : "#fff", letterSpacing: "0.05em" }}>
-        <Code2 size={15} /> {showSeo ? "Hide" : "Show"} SEO layer
-      </button>
-
-      <QuoteModal open={quote.open} model={quote.model} onClose={() => setQuote({ open: false, model: null })} />
+    <div class="hidden lg:block">
+      <svg viewBox="0 0 320 300" class="w-full" fill="none">
+        <rect x="60" y="40" width="200" height="34" rx="3" fill="#e7ebee"/>
+        <rect x="60" y="40" width="200" height="34" rx="3" stroke="#cfd6db" stroke-width="2"/>
+        <g stroke="#9aa3ab" stroke-width="7" stroke-linecap="round">
+          <path d="M80 80 L240 150"/><path d="M240 80 L80 150"/>
+          <path d="M80 150 L240 220"/><path d="M240 150 L80 220"/>
+        </g>
+        <rect x="70" y="220" width="180" height="26" rx="3" fill="#5b6670"/>
+        <circle cx="100" cy="262" r="16" fill="#2a3037"/><circle cx="220" cy="262" r="16" fill="#2a3037"/>
+        <rect x="150" y="-2" width="20" height="44" rx="2" fill="#cc1f2d"/>
+      </svg>
+      <p class="text-center text-xs mt-2" style="color:#7d858c">[ real warehouse / scissor-lift photo goes here ]</p>
     </div>
-  );
-}
+  </div>
+</section>
 
-createRoot(document.getElementById("root")).render(<App />);
+<!-- Trust band -->
+<section class="bg-white border-b" style="border-color:var(--line)">
+  <div class="max-w-6xl mx-auto px-5 py-12 text-center">
+    <div class="flex items-center justify-center gap-4">
+      <span class="head font-extrabold" style="color:var(--brand);font-size:2.4rem;line-height:1">60</span>
+      <span class="text-left head font-semibold uppercase tracking-widest text-[.8rem]" style="color:var(--steel)">Years of<br>Safety, Service<br>&amp; Quality</span>
+    </div>
+    <h2 class="head font-bold mt-6 mb-7" style="font-size:1.1rem;color:var(--ink)">Trusted by Fortune 500 companies across the US &amp; Mexico</h2>
+    <div class="flex flex-wrap items-center justify-center gap-x-9 gap-y-4">
+      <span class="head font-bold tracking-tight" style="color:#aeb6bd;font-size:1.15rem">amazon</span>
+      <span class="head font-bold tracking-tight" style="color:#aeb6bd;font-size:1.15rem">FRITO-LAY</span>
+      <span class="head font-bold tracking-tight" style="color:#aeb6bd;font-size:1.15rem">Kraft</span>
+      <span class="head font-bold tracking-tight" style="color:#aeb6bd;font-size:1.15rem">NIKE</span>
+      <span class="head font-bold tracking-tight" style="color:#aeb6bd;font-size:1.15rem">OWENS</span>
+      <span class="head font-bold tracking-tight" style="color:#aeb6bd;font-size:1.15rem">PCA</span>
+      <span class="head font-bold tracking-tight" style="color:#aeb6bd;font-size:1.15rem">Tyson</span>
+    </div>
+    <p class="text-[11px] mt-4" style="color:#b6bdc3">[ replace wordmarks with official client logos ]</p>
+  </div>
+</section>
 
+<!-- Intro -->
+<section class="max-w-4xl mx-auto px-5 py-16 text-center">
+  <div class="eyebrow">Now in the Johnson lineup</div>
+  <h2 class="head font-extrabold mt-3 leading-tight" style="font-size:clamp(1.6rem,3.2vw,2.3rem)">
+    Electric scissor lifts, matched to the models you already know</h2>
+  <p class="mt-5 text-[1.06rem] leading-relaxed" style="color:var(--steel)">
+    For nearly 60 years Johnson Equipment has kept the region's loading docks and in-plant lifts running.
+    Now we match electric scissor lifts to the Genie, JLG, Skyjack and MEC units you're comparing —
+    pairing a comparable NobleLift lift with the service network and Rite-Hite backing that keep you working.
+  </p>
+</section>
+
+<!-- Category tiles -->
+<section style="background:var(--mist)" class="border-y">
+  <div class="max-w-6xl mx-auto px-5 py-16">
+    <div class="text-center mb-10">
+      <div class="eyebrow">Browse by platform height</div>
+      <h2 class="head font-extrabold mt-3" style="font-size:clamp(1.5rem,3vw,2.1rem)">Find your class</h2>
+    </div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
+      <a href="#" class="tile bg-white rounded-sm p-7 text-center border transition-all" style="border-color:var(--line)">
+        <div class="tile-ico mx-auto grid place-items-center rounded-full mb-4" style="width:64px;height:64px;background:var(--mist);color:var(--brand)">
+          <span class="head font-extrabold text-2xl">19&prime;</span></div>
+        <div class="head font-bold" style="color:var(--ink)">19 ft Class</div>
+        <div class="text-sm mt-1" style="color:var(--steel)">25 ft working height</div>
+      </a>
+      <a href="#" class="tile bg-white rounded-sm p-7 text-center border transition-all" style="border-color:var(--line)">
+        <div class="tile-ico mx-auto grid place-items-center rounded-full mb-4" style="width:64px;height:64px;background:var(--mist);color:var(--brand)">
+          <span class="head font-extrabold text-2xl">26&prime;</span></div>
+        <div class="head font-bold" style="color:var(--ink)">26 ft Class</div>
+        <div class="text-sm mt-1" style="color:var(--steel)">32 ft working height</div>
+      </a>
+      <a href="#" class="tile bg-white rounded-sm p-7 text-center border transition-all" style="border-color:var(--line)">
+        <div class="tile-ico mx-auto grid place-items-center rounded-full mb-4" style="width:64px;height:64px;background:var(--mist);color:var(--brand)">
+          <span class="head font-extrabold text-2xl">32&prime;</span></div>
+        <div class="head font-bold" style="color:var(--ink)">32 ft Class</div>
+        <div class="text-sm mt-1" style="color:var(--steel)">38 ft working height</div>
+      </a>
+      <a href="#" class="tile bg-white rounded-sm p-7 text-center border transition-all" style="border-color:var(--line)">
+        <div class="tile-ico mx-auto grid place-items-center rounded-full mb-4" style="width:64px;height:64px;background:var(--mist);color:var(--brand)">
+          <span class="head font-extrabold text-2xl">40&prime;</span></div>
+        <div class="head font-bold" style="color:var(--ink)">40 ft Class</div>
+        <div class="text-sm mt-1" style="color:var(--steel)">46 ft working height</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA band -->
+<section id="quote" style="background:var(--brand)" class="text-white">
+  <div class="max-w-6xl mx-auto px-5 py-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+    <div>
+      <h3 class="head font-extrabold" style="font-size:1.6rem">Know the model you're replacing?</h3>
+      <p class="mt-1" style="color:#ffd9db">Tell us the unit and we'll quote a comparable scissor lift today.</p>
+    </div>
+    <a href="#" class="btn btn-light px-7 py-3">Request a Quote
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="background:var(--ink)" class="text-white">
+  <div class="max-w-6xl mx-auto px-5 py-14 grid md:grid-cols-4 gap-9">
+    <div class="md:col-span-2">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="head font-extrabold text-white grid place-items-center" style="background:var(--brand);width:34px;height:34px;border-radius:3px;font-size:13px">RH</span>
+        <span class="head font-extrabold tracking-tight" style="font-size:1rem">JOHNSON EQUIPMENT &middot; SCISSOR LIFTS</span>
+      </div>
+      <p class="text-sm max-w-md" style="color:#9aa3ab">Part of the Rite-Hite family. Six decades in material handling — now matching
+        electric scissor lifts to the competitor models you know, with a service network that shows up.</p>
+      <div class="flex gap-3 mt-5 head font-bold text-sm">
+        <span class="grid place-items-center rounded-full" style="width:34px;height:34px;background:#2a3037">f</span>
+        <span class="grid place-items-center rounded-full" style="width:34px;height:34px;background:#2a3037">X</span>
+        <span class="grid place-items-center rounded-full" style="width:34px;height:34px;background:#2a3037">in</span>
+        <span class="grid place-items-center rounded-full" style="width:34px;height:34px;background:#2a3037">&#9658;</span>
+      </div>
+    </div>
+    <div>
+      <div class="head font-bold uppercase tracking-widest text-[.72rem] mb-3" style="color:#6b747c">Explore</div>
+      <a href="#" class="block text-sm py-1" style="color:#c3cad0">Scissor Lifts by Height</a>
+      <a href="#" class="block text-sm py-1" style="color:#c3cad0">Brands We Match</a>
+      <a href="#" class="block text-sm py-1" style="color:#c3cad0">Why Johnson</a>
+      <a href="#" class="block text-sm py-1" style="color:#c3cad0">Request a Quote</a>
+    </div>
+    <div>
+      <div class="head font-bold uppercase tracking-widest text-[.72rem] mb-3" style="color:#6b747c">Service Area</div>
+      <p class="text-sm" style="color:#c3cad0">Texas · Tennessee · Oklahoma · Arkansas · Mississippi · Mexico</p>
+      <div class="head font-bold mt-4 flex items-center gap-2" style="color:#fff">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        (800) 555-0142</div>
+    </div>
+  </div>
+  <div class="border-t text-center py-5 text-xs" style="border-color:#2a3037;color:#6b747c">
+    &copy; 2026 Johnson Equipment Company &middot; scissorlifts.jequip.com &middot; Prototype — brand names referenced for comparison only.
+  </div>
+</footer>
+
+<script>
+  burger.onclick = () => mobile.classList.toggle('hidden');
+  const MODELS=["Genie GS-1930","Genie GS-2632","Genie GS-2646","Genie GS-3246","Genie GS-4047","Genie GS-4069",
+    "JLG 1930ES","JLG 2646ES","JLG ES3246","JLG 4045R","Skyjack SJ III 3219","Skyjack SJ3226","Skyjack SJ4632",
+    "Skyjack SJ4740","MEC 1930SE","MEC 2632SE","MEC 3232+","MEC 4046+","Snorkel S3219E","Haulotte Compact 1930E"];
+  const q=document.getElementById('q'), box=document.getElementById('results');
+  q.addEventListener('input',()=>{
+    const v=q.value.toLowerCase().replace(/[^a-z0-9]/g,'');
+    if(!v){box.classList.add('hidden');return}
+    const hits=MODELS.filter(m=>m.toLowerCase().replace(/[^a-z0-9]/g,'').includes(v)).slice(0,6);
+    if(!hits.length){box.innerHTML='<div class="px-4 py-3 text-sm" style="color:#5b6670">No match yet — <a href="#" style="color:var(--brand)" class="font-semibold underline">request a quote</a> and we\'ll source it.</div>';box.classList.remove('hidden');return}
+    box.innerHTML=hits.map(m=>`<a href="#" class="flex items-center justify-between px-4 py-2.5 hover:bg-gray-50 text-sm"><span style="color:var(--ink)">${m}</span><span style="color:var(--brand)" class="head font-semibold text-xs uppercase">Compare &rarr;</span></a>`).join('');
+    box.classList.remove('hidden');
+  });
+  document.addEventListener('click',e=>{if(!e.target.closest('#q')&&!e.target.closest('#results'))box.classList.add('hidden')});
 </script>
-
-<script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
 </body>
 </html>
