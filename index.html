@@ -192,7 +192,7 @@ function home(){
       <h2 class="disp mt-2" style="color:var(--ink);font-size:clamp(1.6rem,3.2vw,2.2rem)">Find your class</h2></div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">${tiles}</div></div></section>
 
-  <section style="background:var(--mist)" class="border-y" style="border-color:var(--line)"><div class="max-w-6xl mx-auto px-5 py-16">
+  <section style="background:var(--mist);border-color:var(--line)" class="border-y"><div class="max-w-6xl mx-auto px-5 py-16">
     <div class="text-center mb-10"><div class="eyebrow">Popular comparisons</div>
       <h2 class="disp mt-2" style="color:var(--ink);font-size:clamp(1.6rem,3.2vw,2.2rem)">Most-searched models</h2>
       <p class="mt-2 text-[15px]" style="color:#777">Click a competitor model to see its comparable Johnson Equipment unit.</p></div>
@@ -279,7 +279,7 @@ function router(){const h=location.hash.replace(/^#\/?/,'');const [t,a]=h.split(
 function bindSearch(){const q=document.getElementById('q'),box=document.getElementById('results');if(!q)return;
   q.addEventListener('input',()=>{const v=q.value.toLowerCase().replace(/[^a-z0-9]/g,'');if(!v){box.classList.add('hidden');return}
     const hits=MODELS.filter(m=>(m.brand+m.model).toLowerCase().replace(/[^a-z0-9]/g,'').includes(v)).slice(0,6);
-    if(!hits.length){box.innerHTML='<div class="px-4 py-3 text-sm" style="color:#555">No match yet &mdash; <a onclick="openQuote()" style="color:var(--red);cursor:pointer" class="underline">request a quote</a> and we\\'ll source it.</div>';box.classList.remove('hidden');return}
+    if(!hits.length){box.innerHTML='<div class="px-4 py-3 text-sm" style="color:#555">No match yet &mdash; <a onclick="openQuote()" style="color:var(--red);cursor:pointer" class="underline">request a quote</a> and we will source it.</div>';box.classList.remove('hidden');return}
     box.innerHTML=hits.map(m=>`<a href="#/m/${m.slug}" onclick="document.getElementById('results').classList.add('hidden')" class="flex items-center justify-between px-4 py-2.5 hover:bg-gray-50 text-sm"><span style="color:var(--ink)">${m.brand} ${m.model}</span><span class="disp" style="color:var(--red);font-size:.8rem">Compare &rarr;</span></a>`).join('');box.classList.remove('hidden');});}
 function go(){const q=document.getElementById('q');const v=q.value.toLowerCase().replace(/[^a-z0-9]/g,'');const hit=MODELS.find(m=>(m.brand+m.model).toLowerCase().replace(/[^a-z0-9]/g,'').includes(v));if(hit)location.hash='#/m/'+hit.slug;else openQuote();}
 
