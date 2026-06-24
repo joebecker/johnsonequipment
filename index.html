@@ -277,13 +277,10 @@ function model(s){
 
     <div class="mt-8 grid md:grid-cols-[1fr_auto_1fr] gap-4 items-stretch">
       <div class="rounded-sm border p-6" style="border-color:var(--line)"><div class="disp" style="color:#999;font-size:1.25rem">You're comparing</div>
-        <div class="disp mt-2" style="color:var(--ink);font-size:1.85rem">${m.brand} ${m.model}</div>
-        <div class="text-sm mt-2" style="color:#777">${m.wh} ft working &middot; ${m.cap} lb &middot; ${m.width}&Prime; wide</div></div>
+        <div class="disp mt-2" style="color:var(--ink);font-size:1.85rem">${m.brand} ${m.model}</div></div>
       <div class="flex items-center justify-center"><div class="grid place-items-center rounded-full" style="width:48px;height:48px;background:var(--red);color:#fff">&#8644;</div></div>
       <div class="rounded-sm p-6 text-white" style="background:var(--black)"><div class="disp" style="color:var(--red);font-size:1.25rem">Johnson Equipment comparable</div>
         <div class="disp mt-2" style="font-size:1.85rem">NobleLift ${m.noble}</div>
-        <div class="text-sm mt-2" style="color:#ddd">${n.wh} working &middot; ${n.cap} lb &middot; ${n.deckW}&Prime; wide</div>
-        <div class="text-[12px] mt-1" style="color:#999">Lithium electric &middot; ${n.io}</div>
         <a href="${NLINK}" target="_blank" class="inline-block mt-3 text-sm" style="color:var(--red)">View full specs &rarr;</a></div></div>
 
     ${sellingStrip()}
