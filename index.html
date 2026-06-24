@@ -62,7 +62,7 @@
           <a href="#/c/40" class="block px-4 py-2 text-sm hover:bg-gray-50">40 ft Electric Scissor Lifts</a>
         </div></div>
       </div>
-      <span class="nav-link" onclick="openQuote()">Brands We Match</span>
+      <a href="#/brands" class="nav-link">Brands We Match</a>
       <span class="nav-link" onclick="openQuote()">Why Johnson</span>
       <span class="nav-link" onclick="openQuote()">Service</span>
       <span class="nav-link" onclick="openQuote()">Contact Us</span>
@@ -160,7 +160,7 @@ function home(){
       <div class="disp" style="color:var(--ink);font-size:1.05rem">${m.model}</div>
       <div class="text-xs mt-1" style="color:#777">${m.wh} ft &middot; ${m.cap} lb</div>
       <div class="mt-2 flex items-center gap-1 text-xs" style="color:var(--red)">${arrow(13)}<span class="disp">NobleLift ${m.noble}</span></div></a>`).join('');
-  const allIndex=['Genie','JLG','Skyjack','MEC'].map(b=>{const ms=MODELS.filter(m=>m.brand===b);return `<div class="mb-5"><div class="disp" style="color:var(--ink);font-size:1.1rem;border-left:3px solid var(--red);padding-left:.5rem">${b}</div><div class="grid sm:grid-cols-2 gap-x-8 gap-y-1 mt-2">${ms.map(m=>`<a href="#/m/${m.slug}" class="flex items-center gap-1.5 py-0.5 text-sm" style="color:#444"><span class="disp" style="color:var(--ink);font-size:1rem">${m.model}</span>${arrow(14)}<span style="color:var(--red)">${m.noble}</span></a>`).join('')}</div></div>`;}).join('');
+  const allIndex=['Genie','JLG','Skyjack','MEC'].map(b=>{const ms=MODELS.filter(m=>m.brand===b);return `<div class="mb-5"><a href="#/b/${slug(b)}" class="disp" style="color:var(--ink);font-size:1.1rem;border-left:3px solid var(--red);padding-left:.5rem;display:inline-block">${b} &rarr;</a><div class="grid sm:grid-cols-2 gap-x-8 gap-y-1 mt-2">${ms.map(m=>`<a href="#/m/${m.slug}" class="flex items-center gap-1.5 py-0.5 text-sm" style="color:#444"><span class="disp" style="color:var(--ink);font-size:1rem">${m.model}</span>${arrow(14)}<span style="color:var(--red)">${m.noble}</span></a>`).join('')}</div></div>`;}).join('');
   const faqs=[
    ["How do I find the Johnson Equipment equivalent of my scissor lift?","Type your competitor make or model into the search at the top of the page — for example \u201cGS-1930\u201d or \u201cJLG 2632.\u201d You'll land on a comparison page showing the comparable NobleLift electric lift, a spec-for-spec table, and a quote button that routes straight to a Johnson Equipment specialist."],
    ["What's the difference between platform height and working height?","Platform height is how high the deck rises; working height adds about six feet for a person's reach. A 19 ft platform gives roughly 25 ft of working height, a 26 ft platform about 32 ft, a 32 ft platform about 38 ft, and a 40 ft platform about 46 ft. Most job requirements are written in working height."],
@@ -249,9 +249,7 @@ function home(){
 
 function category(k){
   const c=CATS[k];if(!c)return home();const ms=inCat(k).sort((a,b)=>a.ph-b.ph||a.brand.localeCompare(b.brand));
-  const rows=ms.map(m=>`<a href="#/m/${m.slug}" class="flex items-center justify-between gap-3 px-5 py-4 border-t hover:bg-gray-50" style="border-color:#f0f0f0">
-    <div><div class="text-[11px] uppercase tracking-wide" style="color:#999">${m.brand}</div><div class="flex items-center gap-2 flex-wrap mt-0.5"><span class="disp" style="color:var(--ink);font-size:1.2rem">${m.model}</span>${arrow(20)}<span class="disp" style="color:var(--red);font-size:1.05rem">NobleLift ${m.noble}</span></div></div>
-    <div class="disp text-right" style="color:var(--red);font-size:1rem">Compare &rarr;</div></a>`).join('');
+  const rows=ms.map(m=>modelListRow(m,m.brand)).join('');
   return `<section class="bg-white"><div class="max-w-6xl mx-auto px-5 py-10">
     <a href="#/" class="text-sm" style="color:#888">&larr; All heights</a>
     <div class="eyebrow mt-5">Electric &middot; ${c.wh} working height</div>
@@ -264,6 +262,57 @@ function category(k){
   </div></section>`;
 }
 
+const BRANDS=['Genie','JLG','Skyjack','MEC'];
+const BRANDINFO={
+'Genie':{tag:'Terex Genie',blurb:`Genie, a Terex brand, builds some of the most widely used electric scissor lifts in North America &mdash; the GS series. Johnson Equipment cross-references every common Genie model, from the compact GS-1330m to the 40&nbsp;ft GS-4047, to a comparable NobleLift electric lift in the same working-height and capacity class &mdash; typically at a lower cost and a shorter lead time.`},
+'JLG':{tag:'JLG Industries',blurb:`JLG Industries is a global leader in access equipment, and its ES series of electric slab scissor lifts is a fixture in warehouses and on job sites. Whether you run an ES1932, an ES2646, or the 40&nbsp;ft ES4046, Johnson Equipment matches it to an equivalent NobleLift electric scissor lift and quotes a replacement built for the same duty cycle.`},
+'Skyjack':{tag:'Skyjack',blurb:`Skyjack's color-coded, easy-to-service DC scissor lifts &mdash; the SJ3219, SJ3226, SJ4732 and more &mdash; are a rental-fleet favorite for their simplicity and uptime. Johnson Equipment cross-references each Skyjack model to a comparable NobleLift lithium scissor lift in the same platform-height and capacity class.`},
+'MEC':{tag:'MEC Aerial Work Platforms',blurb:`MEC Aerial Work Platforms builds rugged electric scissor lifts, including the compact Micro series and the wide-deck ES line. Johnson Equipment matches MEC models like the Micro19, Micro26 and 2647ES to a comparable NobleLift electric lift &mdash; backed by parts and a specialist you can reach directly.`}
+};
+function brandName(s){return BRANDS.find(b=>slug(b)===s)||null;}
+function brandStats(b){const ms=MODELS.filter(m=>m.brand===b);const phs=ms.map(m=>m.ph);return {n:ms.length,lo:Math.min(...phs),hi:Math.max(...phs)};}
+function modelListRow(m,sub){return `<a href="#/m/${m.slug}" class="flex items-center justify-between gap-3 px-5 py-4 border-t hover:bg-gray-50" style="border-color:#f0f0f0">
+    <div><div class="text-[11px] uppercase tracking-wide" style="color:#999">${sub}</div><div class="flex items-center gap-2 flex-wrap mt-0.5"><span class="disp" style="color:var(--ink);font-size:1.2rem">${m.model}</span>${arrow(20)}<span class="disp" style="color:var(--red);font-size:1.05rem">NobleLift ${m.noble}</span></div></div>
+    <div class="disp text-right" style="color:var(--red);font-size:1rem">Compare &rarr;</div></a>`;}
+function brandsIndex(){
+  const cards=BRANDS.map(b=>{const s=brandStats(b);return `<a href="#/b/${slug(b)}" class="tile bg-white rounded-sm p-7 border transition-all flex flex-col" style="border-color:var(--line)">
+    <div class="disp" style="color:var(--ink);font-size:2.1rem;line-height:1">${b}</div>
+    <div class="text-sm mt-2" style="color:#777">${BRANDINFO[b].tag}</div>
+    <div class="text-sm mt-3" style="color:#555">${s.n} models cross-referenced &middot; ${s.lo}&ndash;${s.hi}&nbsp;ft platform</div>
+    <div class="disp mt-4" style="color:var(--red);font-size:1rem">View ${b} scissor lifts &rarr;</div></a>`;}).join('');
+  return `<section class="bg-white"><div class="max-w-6xl mx-auto px-5 py-10">
+    <a href="#/" class="text-sm" style="color:#888">&larr; Home</a>
+    <div class="eyebrow mt-5">OEM scissor lift brands we replace</div>
+    <h1 class="disp mt-2" style="color:var(--ink);font-size:clamp(2.5rem,4.8vw,4rem)">Brands We Match</h1>
+    <p class="mt-3 max-w-3xl text-[1.05rem]" style="color:#666">Johnson Equipment cross-references the leading OEM scissor lift brands to a comparable NobleLift electric lift. Whatever competitor model you're pricing or replacing, you can get an equivalent unit &mdash; typically at a lower cost, with shorter lead times and a stronger warranty. Choose a brand to see every model we match.</p>
+    <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">${cards}</div>
+    <div class="mt-10 max-w-3xl text-[15px] leading-relaxed" style="color:#555">
+      <h2 class="disp" style="color:var(--ink);font-size:1.5rem">One comparable for every competitor lift</h2>
+      <p class="mt-3">Genie, JLG, Skyjack and MEC dominate the North American electric scissor lift market &mdash; but parts, lead times and pricing on the OEM units aren't always in your favor. Every model in our cross-reference is matched to a NobleLift SC-series electric scissor lift in the same platform-height and capacity class, so you can replace a competitor unit without changing how your crews work. Not sure which model you're running? Call or text ${REP.first} at <a href="tel:${REP.tel}" style="color:var(--red)">${REP.phone}</a> and we'll identify the right comparable for you.</p>
+    </div>
+    <div class="mt-8 text-center"><button class="btn btn-red px-6 py-3" onclick="openQuote()">Request a Quote &rarr;</button></div>
+  </div></section>`;
+}
+function brandPage(s){
+  const b=brandName(s);if(!b)return brandsIndex();
+  const ms=MODELS.filter(m=>m.brand===b).sort((x,y)=>x.ph-y.ph||x.model.localeCompare(y.model));
+  const st=brandStats(b);
+  const rows=ms.map(m=>modelListRow(m, m.hk+' ft class')).join('');
+  return `<section class="bg-white"><div class="max-w-6xl mx-auto px-5 py-10">
+    <a href="#/brands" class="text-sm" style="color:#888">&larr; Brands we match</a>
+    <div class="eyebrow mt-5">${BRANDINFO[b].tag} &middot; ${st.n} models &middot; ${st.lo}&ndash;${st.hi} ft platform</div>
+    <h1 class="disp mt-2" style="color:var(--ink);font-size:clamp(2.5rem,4.8vw,4rem)">${b} Scissor Lifts</h1>
+    <p class="mt-3 max-w-3xl text-[1.05rem]" style="color:#666">${BRANDINFO[b].blurb}</p>
+    <div class="mt-8 rounded-sm border overflow-hidden" style="border-color:var(--line)">
+      <div class="hidden md:flex justify-between px-5 py-3 disp text-[14px]" style="background:#f3f3f3;color:#666">
+        <div>${b} model &rarr; Johnson comparable</div><div></div></div>${rows}</div>
+    <div class="mt-10 max-w-3xl text-[15px] leading-relaxed" style="color:#555">
+      <h2 class="disp" style="color:var(--ink);font-size:1.5rem">Comparable ${b} scissor lift replacements</h2>
+      <p class="mt-3">Each ${b} model above is paired with the closest NobleLift SC-series electric scissor lift &mdash; matched on working height, platform capacity and deck width. You get the same reach and footprint the job calls for, with lithium-electric running gear and a quote that routes straight to a Johnson Equipment specialist instead of a call center. Click any model for the spec-for-spec comparison and pricing.</p>
+    </div>
+    <div class="mt-8 text-center"><button class="btn btn-red px-6 py-3" onclick="openQuote()">Request a Quote &rarr;</button></div>
+  </div></section>`;
+}
 function model(s){
   const m=find(s);if(!m)return home();const n=NOBLE[m.noble];const c=CATS[m.hk];const rel=inCat(m.hk).filter(x=>x.id!==m.id).slice(0,4);
   const spec=(k,a,b)=>`<div class="grid grid-cols-[1.1fr_1fr_1fr] border-t" style="border-color:#f0f0f0">
@@ -328,6 +377,8 @@ function router(){const h=location.hash.replace(/^#\/?/,'');const [t,a]=h.split(
   let html,title;
   if(t==='c'){html=category(a);title=(CATS[a]?CATS[a].label.replace(/&amp;/g,'&'):'Scissor Lifts')+' | Johnson Equipment';}
   else if(t==='m'){const mm=find(a);html=model(a);title=mm?`${mm.brand} ${mm.model} Replacement | Johnson Equipment`:'Scissor Lifts';}
+  else if(t==='brands'){html=brandsIndex();title='Scissor Lift Brands We Match | Johnson Equipment';}
+  else if(t==='b'){const bn=brandName(a);html=brandPage(a);title=(bn?bn+' Scissor Lifts':'Scissor Lifts')+' | Johnson Equipment';}
   else{html=home();title='Scissor Lifts | Johnson Equipment';}
   app.innerHTML=html;document.title=title;window.scrollTo(0,0);if(!t)bindSearch();}
 function bindSearch(){const q=document.getElementById('q'),box=document.getElementById('results');if(!q)return;
