@@ -337,15 +337,7 @@ function bindSearch(){const q=document.getElementById('q'),box=document.getEleme
     box.innerHTML=hits.map(m=>`<a href="#/m/${m.slug}" onclick="document.getElementById('results').classList.add('hidden')" class="flex items-center justify-between px-4 py-2.5 hover:bg-gray-50 text-sm"><span style="color:var(--ink)">${m.brand} ${m.model}</span><span class="disp" style="color:var(--red);font-size:.8rem">Compare &rarr;</span></a>`).join('');box.classList.remove('hidden');});q.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();go();}});}
 function norm(s){return String(s).toLowerCase().replace(/[^a-z0-9]/g,'');}function bestMatch(v){if(!v)return null;return MODELS.find(m=>norm(m.model)===v)||MODELS.find(m=>norm(m.brand+m.model)===v)||MODELS.find(m=>norm(m.model).startsWith(v))||MODELS.find(m=>norm(m.brand+m.model).includes(v))||MODELS.find(m=>(norm(m.brand)+norm(m.model)).includes(v))||null;}function go(){const q=document.getElementById('q');if(!q)return;const v=norm(q.value);const box=document.getElementById('results');if(box)box.classList.add('hidden');if(!v)return;const hit=bestMatch(v);if(hit)location.hash='#/m/'+hit.slug;else openQuote();}
 
-function openQuote(label){document.getElementById('qm-title').innerHTML=label?('Comparable to '+label):'Electric Scissor Lift';
-  document.getElementById('qm-body').innerHTML=`
-    ${label?`<div class="mb-4 flex items-center gap-2 rounded px-4 py-3 text-sm" style="background:#fdeaea;color:#444">Matching a comparable unit to your <b>${label}</b></div>`:''}
-    <div class="grid grid-cols-2 gap-3">
-      ${['Name','Company','Email','Phone','ZIP / job site'].map(l=>`<label class="${l.startsWith('ZIP')?'col-span-2':''} block"><span class="disp text-[11px]" style="color:#888">${l}</span><input class="w-full rounded px-3 py-2 text-sm mt-1 border outline-none" style="border-color:var(--line)"></label>`).join('')}
-      <label class="col-span-2 block"><span class="disp text-[11px]" style="color:#888">Anything else?</span><textarea rows="3" class="w-full rounded px-3 py-2 text-sm mt-1 border outline-none" style="border-color:var(--line)" placeholder="Qty, timeline, rental vs purchase…"></textarea></label></div>
-    <button class="btn btn-red px-5 py-3 mt-4 w-full justify-center" onclick="sent()">Send to my specialist &rarr;</button>
-    <p class="text-center text-xs mt-3" style="color:#aaa">Prototype — no data is submitted or stored.</p>`;
-  document.getElementById('qm').classList.remove('hidden');document.getElementById('qm').classList.add('flex');}
+function openQuote(label){document.getElementById('qm-title').innerHTML=label?('Comparable to '+label):'Electric Scissor Lift';document.getElementById('qm-body').innerHTML=`${repCard()}<div class="mt-4">${inlineForm('qm_inline',label||'')}</div>`;document.getElementById('qm').classList.remove('hidden');document.getElementById('qm').classList.add('flex');}
 function sent(){document.getElementById('qm-body').innerHTML=`<div class="text-center py-10">
   <div class="mx-auto grid place-items-center rounded-full" style="width:56px;height:56px;background:#dcfce7;color:#16a34a;font-size:1.6rem">&#10003;</div>
   <h3 class="disp mt-4" style="color:var(--ink);font-size:1.5rem">Quote request sent</h3>
