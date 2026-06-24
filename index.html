@@ -302,7 +302,7 @@ function model(s){
     <div class="mt-12"><h2 class="disp mb-4" style="color:var(--ink);font-size:1.85rem">Also in ${m.hk} ft</h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">${rel.map(r=>`<a href="#/m/${r.slug}" class="mcard rounded-sm p-4 border" style="border-color:var(--line)">
         <div class="text-[11px] uppercase" style="color:#999">${r.brand}</div><div class="disp" style="color:var(--ink)">${r.model}</div>
-        <div class="text-xs mt-1" style="color:#777">${r.cap} lb &middot; ${r.width}&Prime;</div></a>`).join('')}</div></div>
+        <div class="text-[11px] mt-2 leading-relaxed" style="color:#999">Working height <span style="color:#444">${r.wh} ft</span><br>Capacity <span style="color:#444">${r.cap} lb</span><br>Platform width <span style="color:#444">${r.width}&Prime;</span></div></a>`).join('')}</div></div>
 
     <p class="mt-10 text-xs" style="color:#aaa">${m.brand}&reg; and ${m.model} are trademarks of their respective owners. Johnson Equipment is not affiliated with or endorsed by ${m.brand}; the model is referenced for comparison only.</p>
   </div></section>`;
