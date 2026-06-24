@@ -249,19 +249,17 @@ function home(){
 
 function category(k){
   const c=CATS[k];if(!c)return home();const ms=inCat(k).sort((a,b)=>a.ph-b.ph||a.brand.localeCompare(b.brand));
-  const rows=ms.map(m=>{const n=NOBLE[m.noble];return `<a href="#/m/${m.slug}" class="grid grid-cols-2 md:grid-cols-[1.9fr_.8fr_.8fr_.7fr_auto] gap-3 items-center px-5 py-4 border-t hover:bg-gray-50" style="border-color:#f0f0f0">
+  const rows=ms.map(m=>`<a href="#/m/${m.slug}" class="flex items-center justify-between gap-3 px-5 py-4 border-t hover:bg-gray-50" style="border-color:#f0f0f0">
     <div><div class="text-[11px] uppercase tracking-wide" style="color:#999">${m.brand}</div><div class="flex items-center gap-2 flex-wrap mt-0.5"><span class="disp" style="color:var(--ink);font-size:1.2rem">${m.model}</span>${arrow(20)}<span class="disp" style="color:var(--red);font-size:1.05rem">NobleLift ${m.noble}</span></div></div>
-    <div><div class="text-sm" style="color:#333">${m.wh} ft</div><div class="text-[12px] disp" style="color:var(--red)">${n.wh}</div></div><div><div class="text-sm" style="color:#333">${m.cap} lb</div><div class="text-[12px] disp" style="color:var(--red)">${n.cap} lb</div></div><div><div class="text-sm" style="color:#333">${m.width}&Prime;</div><div class="text-[12px] disp" style="color:var(--red)">${n.deckW}&Prime;</div></div>
-    <div class="disp text-right" style="color:var(--red);font-size:1rem">Compare &rarr;</div></a>`;}).join('');
+    <div class="disp text-right" style="color:var(--red);font-size:1rem">Compare &rarr;</div></a>`).join('');
   return `<section class="bg-white"><div class="max-w-6xl mx-auto px-5 py-10">
     <a href="#/" class="text-sm" style="color:#888">&larr; All heights</a>
     <div class="eyebrow mt-5">Electric &middot; ${c.wh} working height</div>
     <h1 class="disp mt-2" style="color:var(--ink);font-size:clamp(2.5rem,4.8vw,4rem)">${c.label}</h1>
     <p class="mt-3 max-w-3xl text-[1.05rem]" style="color:#666">${c.blurb} Pick the competitor model you're running or pricing, and we'll quote a comparable Johnson Equipment unit.</p>
-    <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[12px]" style="color:#888"><span class="flex items-center gap-1.5"><span style="width:10px;height:10px;background:#333;display:inline-block;border-radius:2px"></span>OEM model spec</span><span class="flex items-center gap-1.5"><span style="width:10px;height:10px;background:var(--red);display:inline-block;border-radius:2px"></span>Johnson Equipment comparable (NobleLift)</span></div>
     <div class="mt-8 rounded-sm border overflow-hidden" style="border-color:var(--line)">
-      <div class="hidden md:grid grid-cols-[1.9fr_.8fr_.8fr_.7fr_auto] gap-3 px-5 py-3 disp text-[14px]" style="background:#f3f3f3;color:#666">
-        <div>Model &rarr; Johnson comparable</div><div>Working ht</div><div>Capacity</div><div>Width</div><div></div></div>${rows}</div>
+      <div class="hidden md:flex justify-between px-5 py-3 disp text-[14px]" style="background:#f3f3f3;color:#666">
+        <div>Model &rarr; Johnson comparable</div><div></div></div>${rows}</div>
     <div class="mt-8 text-center"><button class="btn btn-red px-6 py-3" onclick="openQuote()">Request a Quote &rarr;</button></div>
   </div></section>`;
 }
@@ -274,7 +272,7 @@ function model(s){
   return `<section class="bg-white"><div class="max-w-6xl mx-auto px-5 py-10">
     <a href="#/c/${m.hk}" class="text-sm" style="color:#888">&larr; ${c.label.replace('&amp;','&')}</a>
     <div class="eyebrow mt-5">${m.brand} scissor lift &middot; ${m.wh} ft working height</div>
-    <h1 class="disp mt-2" style="color:var(--ink);font-size:clamp(2.4rem,4.4vw,3.6rem)">${m.model} &mdash; Comparable Johnson Equipment Scissor Lift</h1>
+    <h1 class="disp mt-2" style="color:var(--ink);font-size:clamp(2.4rem,4.4vw,3.6rem)">${m.model} &mdash; Replacement Scissor Lift</h1>
     <p class="mt-3 max-w-3xl text-[1.05rem]" style="color:#666">Comparing the ${m.brand} ${m.model}? Here's the equivalent electric scissor lift from Johnson Equipment &mdash; matched on working height, capacity and footprint, and backed by service you can actually reach.</p>
 
     <div class="mt-8 grid md:grid-cols-[1fr_auto_1fr] gap-4 items-stretch">
