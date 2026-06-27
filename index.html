@@ -1,4 +1,4 @@
-<!-- Johnson Equipment Company · scissor lift site · rev 2 · build 2026-06-26 -->
+<!-- Johnson Equipment Company · scissor lift site · rev 3 · build 2026-06-26 -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -63,6 +63,18 @@
           <a href="#/c/40" class="block px-4 py-2 text-sm hover:bg-gray-50">40 ft Electric Scissor Lifts</a>
         </div></div>
       </div>
+      <div class="dropdown relative"><a href="#/lifts" class="nav-link flex items-center gap-1">Our Lifts
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></a>
+        <div class="menu absolute left-0 top-full pt-3"><div class="bg-white border shadow-xl rounded-sm py-2 w-72" style="border-color:var(--line)">
+          <a href="#/nl/SC1328E" class="block px-4 py-2 text-sm hover:bg-gray-50">SC1328E &middot; 13 ft / 530 lb</a>
+          <a href="#/nl/SC1930EC" class="block px-4 py-2 text-sm hover:bg-gray-50">SC1930EC &middot; 19 ft / 500 lb</a>
+          <a href="#/nl/SC2632EN" class="block px-4 py-2 text-sm hover:bg-gray-50">SC2632EN &middot; 26 ft / 500 lb</a>
+          <a href="#/nl/SC2645E" class="block px-4 py-2 text-sm hover:bg-gray-50">SC2645E &middot; 26 ft / 1,000 lb</a>
+          <a href="#/nl/SC3345E" class="block px-4 py-2 text-sm hover:bg-gray-50">SC3345E &middot; 33 ft / 700 lb</a>
+          <a href="#/nl/SC3945E" class="block px-4 py-2 text-sm hover:bg-gray-50">SC3945E &middot; 39 ft / 700 lb</a>
+          <a href="#/lifts" class="block px-4 py-2 text-sm hover:bg-gray-50" style="color:var(--red)">All our lifts &rarr;</a>
+        </div></div>
+      </div>
       <a href="#/brands" class="nav-link">Brands We Match</a>
       <span class="nav-link" onclick="openQuote()">Why Johnson</span>
       <span class="nav-link" onclick="openQuote()">Service</span>
@@ -90,7 +102,7 @@
       <a href="#/c/19" class="block py-1 text-sm" style="color:var(--red)">19 ft &amp; Compact</a>
       <a href="#/c/26" class="block py-1 text-sm" style="color:var(--red)">26 ft Class</a>
       <a href="#/c/32" class="block py-1 text-sm" style="color:var(--red)">32 ft Class</a>
-      <a href="#/c/40" class="block py-1 text-sm" style="color:var(--red)">40 ft Class</a></div>
+      <a href="#/c/40" class="block py-1 text-sm" style="color:var(--red)">40 ft Class</a><a href="#/lifts" class="block py-1 text-sm" style="color:var(--red)">Our NobleLift Lifts</a></div>
     <div class="text-center"><div class="disp" style="font-size:1.4rem">Johnson Equipment Company</div>
       <div class="disp" style="color:var(--red);letter-spacing:.1em">Scissor Lifts</div>
       <div class="text-xs mt-3" style="color:#888">&copy; 2026 jequip.com. All rights reserved. <span id="siteRev" style="color:#666"></span></div></div>
@@ -114,7 +126,7 @@
 </div>
 
 <script>
-const REV=2,BUILD="2026-06-26";
+const REV=3,BUILD="2026-06-26";
 
 const NLINK="https://www.nobleliftna.com/lithium-scissor-lifts-self-propelled-sc-series";
 // [brand, model, platformHt, widthIn, capacityLb, nobleModel]
@@ -320,6 +332,85 @@ function brandPage(s){
     <div class="mt-8 text-center"><button class="btn btn-red px-6 py-3" onclick="openQuote()">Request a Quote &rarr;</button></div>
   </div></section>`;
 }
+/* ---------- NobleLift (our lifts) pages ---------- */
+const NL_ORDER=["SC1328E","SC1930EC","SC2632EN","SC2645E","SC3345E","SC3945E"];
+const NOBLE_ADV=`NobleLift builds the SC-Series to go head-to-head with the major access brands &mdash; Genie, JLG, Skyjack and MEC &mdash; and win on the things that actually move your bottom line. Every unit runs on maintenance-free lithium power for all-day runtime and fast opportunity charging, ships on dramatically shorter lead times than the OEMs, and is priced below a comparable name-brand machine spec-for-spec. Backed by Johnson Equipment Company's parts inventory and a named specialist across Texas, Tennessee, Oklahoma, Arkansas, Mississippi and Mexico, it's supported by people you can actually reach &mdash; not a call center.`;
+const NOBLEINFO={
+"SC1328E":{tag:"Compact 13 ft lithium-electric scissor lift",
+ desc:`The NobleLift SC1328E is a compact, low-level electric scissor lift built for tight indoor work. At just 28 inches wide it slips through standard doorways and works narrow aisles, while its lithium power pack keeps it clean and quiet for retail, maintenance and light installation jobs. With a 530 lb platform capacity it comfortably carries a worker and tools to just under 19 feet of working height.`,
+ why:`Because it's narrow and lightweight, the SC1328E goes where bigger lifts can't &mdash; and because it's lithium-electric, it does it without fumes, noise or the upkeep of an old lead-acid machine. For facilities teams and retailers, it's a like-for-like swap for a compact Genie or JLG slab lift at a better price and lead time.`,
+ bestFor:`Doorway-width access, retail and facility maintenance, low-level indoor installs.`},
+"SC1930EC":{tag:"Versatile 19 ft indoor / outdoor scissor lift",
+ desc:`The SC1930EC is the do-everything mid-height lift in the SC-Series. Rated for both indoor and outdoor slab use, it reaches about 25 feet of working height on a narrow 29-inch chassis, making it a natural fit for warehouses, MEP work and general contracting. Lithium running gear means fast opportunity charging and no battery maintenance.`,
+ why:`The SC1930EC covers the widest range of everyday jobs of any lift in the line, which makes it the easiest one to standardize a fleet around. Crews get the same reach and footprint as a 19 ft Genie, JLG, Skyjack or MEC unit &mdash; with lithium runtime and a far shorter wait.`,
+ bestFor:`Warehouse picking, electrical and HVAC, general indoor / outdoor slab work.`},
+"SC2632EN":{tag:"Narrow 26 ft high-reach scissor lift",
+ desc:`When you need height but the aisles are tight, the SC2632EN delivers 32 feet of working height on a 32-inch-wide deck. It's purpose-built for tall indoor work &mdash; distribution centers, big-box retail and overhead MEP &mdash; where a wide machine simply won't fit. The lithium pack runs a full shift and tops up between tasks.`,
+ why:`Tall-but-narrow is exactly where the SC2632EN earns its keep &mdash; it gets crews to 32 feet without the wide chassis that blocks aisles. It's the natural NobleLift answer to a narrow-deck 26 ft Genie, JLG or Skyjack lift.`,
+ bestFor:`Tall, narrow indoor work &mdash; racking, overhead MEP, big-box retail.`},
+"SC2645E":{tag:"Wide-deck 26 ft, 1,000 lb scissor lift",
+ desc:`The SC2645E pairs a roomy 44-inch deck with a class-leading 1,000 lb platform capacity, so two workers and their materials can reach 32 feet of working height together. Rated indoor and outdoor, it's the workhorse for construction, signage and heavier MEP installs where capacity and deck space matter as much as reach.`,
+ why:`With 1,000 lb of capacity and a 44-inch deck, the SC2645E carries more people and material than most lifts its size, cutting trips up and down. It lines up directly against a wide-deck 26 ft Genie, JLG or Skyjack &mdash; at a better price and lead time.`,
+ bestFor:`Two-worker installs, signage, heavier construction and MEP.`},
+"SC3345E":{tag:"33 ft wide-deck high-reach scissor lift",
+ desc:`The SC3345E reaches roughly 39 feet of working height on a stable 44-inch deck, giving crews real altitude without stepping up to a boom lift. Rated for indoor and outdoor slab use with a 700 lb platform, it suits high-bay warehouses, atriums and exterior facade work.`,
+ why:`The SC3345E hits high-bay heights on a full-size deck, so crews stay productive at 39 feet instead of fighting a cramped platform. It's the NobleLift match for a 32 ft wide-deck Genie, JLG or Skyjack.`,
+ bestFor:`High-bay warehouses, atriums, exterior facade and steel work.`},
+"SC3945E":{tag:"39 ft maximum-height lithium scissor lift",
+ desc:`The SC3945E is the tallest lift in the SC-Series, reaching nearly 45 feet of working height for the highest indoor jobs. With a 44-inch deck and 700 lb capacity, it gives crews a stable, full-size platform at altitude &mdash; ideal for high-bay storage, manufacturing and large interior build-outs &mdash; all on quiet, maintenance-free lithium power.`,
+ why:`When the job is as high as a scissor lift goes, the SC3945E delivers nearly 45 feet of reach on stable lithium power. For anyone running a 40 ft Genie, JLG or Skyjack, it's the top-end NobleLift replacement.`,
+ bestFor:`Maximum-height indoor work &mdash; high-bay, manufacturing, large build-outs.`}
+};
+function nobleProductImg(code){return `<div class="rounded-sm border overflow-hidden bg-white" style="border-color:var(--line)"><div class="flex items-center justify-center bg-white p-4" style="height:240px"><img src="${nobleImgUrl(code)}" alt="NobleLift ${code} electric scissor lift" loading="lazy" style="max-height:100%;max-width:100%;object-fit:contain"></div><div class="px-4 py-3 border-t" style="border-color:var(--line)"><div class="disp" style="color:var(--ink);font-size:1.25rem">NobleLift ${code}</div><div class="text-[13px] mt-0.5" style="color:#777">${NOBLEINFO[code].tag}</div></div></div>`;}
+function nobleSpecRow(k,v){return `<div class="grid grid-cols-[1.2fr_1fr] border-t" style="border-color:#f0f0f0"><div class="px-5 py-3 text-sm" style="color:#888">${k}</div><div class="px-5 py-3 text-sm" style="color:#222">${v}</div></div>`;}
+function nobleSpecTable(code){const n=NOBLE[code];return `<div class="rounded-sm border overflow-hidden" style="border-color:var(--line)"><div class="grid grid-cols-[1.2fr_1fr]" style="background:#f3f3f3"><div class="px-5 py-3 disp text-[14px]" style="color:#666">Specification</div><div class="px-5 py-3 disp text-[14px] text-white" style="background:var(--red)">NobleLift ${code}</div></div>${nobleSpecRow("Working height",n.wh)}${nobleSpecRow("Platform height",n.platHt+" ft")}${nobleSpecRow("Platform capacity",n.cap+" lb")}${nobleSpecRow("Deck width",n.deckW+"&Prime;")}${nobleSpecRow("Platform size (L&times;W)",n.plat)}${nobleSpecRow("Power","Lithium "+n.power)}${nobleSpecRow("Use",n.io)}${nobleSpecRow("Turning radius",n.turn)}</div>`;}
+function noblePage(code){
+  const n=NOBLE[code];if(!n)return nobleIndex();const info=NOBLEINFO[code];
+  const rel=NL_ORDER.filter(c=>c!==code).slice(0,4);
+  return `<section class="bg-white"><div class="max-w-6xl mx-auto px-5 py-10">
+    <a href="#/lifts" class="text-sm" style="color:#888">&larr; Our lifts</a>
+    <div class="eyebrow mt-5">NobleLift SC-Series &middot; ${n.io} &middot; lithium-electric</div>
+    <h1 class="disp mt-2" style="color:var(--ink);font-size:clamp(2.4rem,4.4vw,3.6rem)">NobleLift ${code} Electric Scissor Lift</h1>
+    <p class="mt-3 max-w-3xl text-[1.05rem]" style="color:#666">${info.desc}</p>
+    ${sellingStrip()}
+    <div class="mt-8 grid lg:grid-cols-[1.4fr_1fr] gap-8">
+      <div><h2 class="disp mb-3" style="color:var(--ink);font-size:1.85rem">Specifications</h2>
+        ${nobleSpecTable(code)}
+        <p class="mt-3 text-xs" style="color:#aaa">Specs from NobleLift's published SC-Series spec sheet.</p>
+        <div class="mt-6">${nobleProductImg(code)}</div></div>
+      <div class="sticky top-28 space-y-4">${repCard()}${inlineForm('q_nl_'+code,'NobleLift '+code)}</div></div>
+    <div class="mt-12 max-w-3xl text-[15px] leading-relaxed" style="color:#555">
+      <h2 class="disp" style="color:var(--ink);font-size:1.85rem">Why choose the NobleLift ${code}?</h2>
+      <p class="mt-3">${info.why}</p>
+      <p class="mt-3"><strong>Built for:</strong> ${info.bestFor}</p>
+      <h3 class="disp mt-6" style="color:var(--ink);font-size:1.3rem">The NobleLift advantage</h3>
+      <p class="mt-3">${NOBLE_ADV}</p>
+    </div>
+    <div class="mt-12"><h2 class="disp mb-4" style="color:var(--ink);font-size:1.85rem">More NobleLift scissor lifts</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">${rel.map(c=>{const x=NOBLE[c];return `<a href="#/nl/${c}" class="mcard rounded-sm p-4 border" style="border-color:var(--line)">
+        <div class="text-[11px] uppercase" style="color:#999">NobleLift</div><div class="disp" style="color:var(--ink)">${c}</div>
+        <div class="text-[11px] mt-2 leading-relaxed" style="color:#999">Working height <span style="color:#444">${x.wh}</span><br>Capacity <span style="color:#444">${x.cap} lb</span><br>Platform height <span style="color:#444">${x.platHt} ft</span></div></a>`;}).join('')}</div></div>
+  </div></section>`;
+}
+function nobleIndex(){
+  const cards=NL_ORDER.map(c=>{const n=NOBLE[c];const info=NOBLEINFO[c];return `<a href="#/nl/${c}" class="tile bg-white rounded-sm p-6 border transition-all flex flex-col" style="border-color:var(--line)">
+    <div class="disp" style="color:var(--ink);font-size:1.6rem;line-height:1">NobleLift ${c}</div>
+    <div class="text-sm mt-1" style="color:#777">${info.tag}</div>
+    <div class="text-sm mt-3" style="color:#555">${n.wh} working height &middot; ${n.cap} lb &middot; ${n.deckW}&Prime; deck</div>
+    <div class="disp mt-4" style="color:var(--red);font-size:1rem">View ${c} &rarr;</div></a>`;}).join('');
+  return `<section class="bg-white"><div class="max-w-6xl mx-auto px-5 py-10">
+    <a href="#/" class="text-sm" style="color:#888">&larr; Home</a>
+    <div class="eyebrow mt-5">Our lithium-electric scissor lifts</div>
+    <h1 class="disp mt-2" style="color:var(--ink);font-size:clamp(2.5rem,4.8vw,4rem)">Our Scissor Lifts</h1>
+    <p class="mt-3 max-w-3xl text-[1.05rem]" style="color:#666">Johnson Equipment Company supplies the full NobleLift SC-Series of lithium-electric scissor lifts &mdash; from a compact 13 ft unit for doorway-width access up to a 39 ft high-reach machine. Every model runs on maintenance-free lithium power and is stocked and supported locally. Pick a model to see full specs and request a quote.</p>
+    <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">${cards}</div>
+    <div class="mt-10 max-w-3xl text-[15px] leading-relaxed" style="color:#555">
+      <h2 class="disp" style="color:var(--ink);font-size:1.5rem">The NobleLift SC-Series</h2>
+      <p class="mt-3">${NOBLE_ADV}</p>
+    </div>
+    <div class="mt-8 text-center"><button class="btn btn-red px-6 py-3" onclick="openQuote()">Request a Quote &rarr;</button></div>
+  </div></section>`;
+}
 function model(s){
   const m=find(s);if(!m)return home();const n=NOBLE[m.noble];const c=CATS[m.hk];const rel=inCat(m.hk).filter(x=>x.id!==m.id).slice(0,4);
   const spec=(k,a,b)=>`<div class="grid grid-cols-[1.1fr_1fr_1fr] border-t" style="border-color:#f0f0f0">
@@ -386,6 +477,8 @@ function router(){const h=location.hash.replace(/^#\/?/,'');const [t,a]=h.split(
   else if(t==='m'){const mm=find(a);html=model(a);title=mm?`${mm.brand} ${mm.model} Replacement | Johnson Equipment Company`:'Scissor Lifts';}
   else if(t==='brands'){html=brandsIndex();title='Scissor Lift Brands We Match | Johnson Equipment Company';}
   else if(t==='b'){const bn=brandName(a);html=brandPage(a);title=(bn?bn+' Scissor Lifts':'Scissor Lifts')+' | Johnson Equipment Company';}
+  else if(t==='lifts'){html=nobleIndex();title='Our Scissor Lifts | Johnson Equipment Company';}
+  else if(t==='nl'){html=noblePage(a);title=(NOBLE[a]?'NobleLift '+a+' Electric Scissor Lift':'Our Scissor Lifts')+' | Johnson Equipment Company';}
   else{html=home();title='Scissor Lifts | Johnson Equipment Company';}
   app.innerHTML=html;document.title=title;window.scrollTo(0,0);if(!t)bindSearch();}
 function bindSearch(){const q=document.getElementById('q'),box=document.getElementById('results');if(!q)return;
