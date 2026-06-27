@@ -1,3 +1,4 @@
+<!-- Johnson Equipment Company · scissor lift site · rev 1 · build 2026-06-25 -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -92,7 +93,7 @@
       <a href="#/c/40" class="block py-1 text-sm" style="color:var(--red)">40 ft Class</a></div>
     <div class="text-center"><div class="disp" style="font-size:1.4rem">Johnson Equipment Company</div>
       <div class="disp" style="color:var(--red);letter-spacing:.1em">Scissor Lifts</div>
-      <div class="text-xs mt-3" style="color:#888">&copy; 2026 jequip.com. All rights reserved.</div></div>
+      <div class="text-xs mt-3" style="color:#888">&copy; 2026 jequip.com. All rights reserved. <span id="siteRev" style="color:#666"></span></div></div>
     <div class="md:text-right"><div class="disp text-white mb-3">Why Johnson</div>
       <div class="text-sm" style="color:#bbb">Over 60 years in material handling</div>
       <div class="text-sm" style="color:#bbb">Part of the Rite-Hite family</div>
@@ -113,6 +114,8 @@
 </div>
 
 <script>
+const REV=1,BUILD="2026-06-25";
+
 const NLINK="https://www.nobleliftna.com/lithium-scissor-lifts-self-propelled-sc-series";
 // [brand, model, platformHt, widthIn, capacityLb, nobleModel]
 const RAW=[
@@ -136,6 +139,10 @@ const RAW=[
 const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
 const bucket=h=>h<=20?'19':h<=29?'26':h<=35?'32':'40';
 const MODELS=RAW.map((r,i)=>({id:i+1,brand:r[0],model:r[1],ph:r[2],wh:r[3],width:r[4],cap:r[5],noble:r[6],hk:bucket(r[2]),slug:slug(r[0]+'-'+r[1])}));
+const NOBLEIMG_DEFAULT="https://le-cdn.hibuwebsites.com/16e5049557b64f3284d2e5720f46eb41/dms3rep/multi/opt/Noblelift-Electric-Scissorlift-Main-Product-2025-1920w.jpg";
+const NOBLEIMG={SC1328E:"",SC1930EC:"",SC2632EN:"",SC2645E:"",SC3345E:"",SC3945E:""};
+function nobleImgUrl(code){return (NOBLEIMG[code]||NOBLEIMG_DEFAULT);}
+function nobleImg(m){const n=NOBLE[m.noble];return `<div class="rounded-sm border overflow-hidden bg-white" style="border-color:var(--line)"><div class="flex items-center justify-center bg-white p-4" style="height:210px"><img src="${nobleImgUrl(m.noble)}" alt="NobleLift ${m.noble} electric scissor lift" loading="lazy" style="max-height:100%;max-width:100%;object-fit:contain"></div><div class="px-4 py-3 border-t" style="border-color:var(--line)"><div class="text-[11px] uppercase tracking-wide" style="color:#999">Your Johnson Equipment Company comparable</div><div class="disp" style="color:var(--ink);font-size:1.25rem">NobleLift ${m.noble}</div><div class="text-[13px] mt-0.5" style="color:#777">${n.wh} working height &middot; ${n.cap} lb &middot; ${n.deckW}&Prime; deck</div></div></div>`;}
 const NOBLE={"SC1328E":{platHt:13,wh:"18′9″",cap:530,deckW:28,plat:"51″×28″",power:"24V/80Ah",io:"Indoor",turn:"5′1″"},"SC1930EC":{platHt:19,wh:"25′7″",cap:500,deckW:29,plat:"66″×29″",power:"24V/200Ah",io:"Indoor/Outdoor",turn:"5′9″"},"SC2632EN":{platHt:26,wh:"32′",cap:500,deckW:32,plat:"89″×32″",power:"24V/200Ah",io:"Indoor",turn:"7′3″"},"SC2645E":{platHt:26,wh:"32′",cap:1000,deckW:44,plat:"89″×44″",power:"24V/200Ah",io:"Indoor/Outdoor",turn:"8′2″"},"SC3345E":{platHt:33,wh:"39′",cap:700,deckW:44,plat:"89″×44″",power:"24V/200Ah",io:"Indoor/Outdoor",turn:"8′2″"},"SC3945E":{platHt:39,wh:"44′9″",cap:700,deckW:44,plat:"89″×44″",power:"24V/240Ah",io:"Indoor",turn:"8′2″"}};
 const CATS={'19':{label:'19 ft &amp; Compact Electric Scissor Lifts',wh:'up to 25 ft',short:'19',blurb:'Compact slab electric lifts for indoor maintenance, retail fit-outs and tight aisles — from micro 10 ft units up to 20 ft.'},
 '26':{label:'26 ft Electric Scissor Lifts',wh:'32 ft',short:'26',blurb:'The warehouse workhorse — wider decks and higher capacity for stock, MEP and signage work.'},
@@ -342,7 +349,7 @@ function model(s){
             <div class="px-5 py-3 disp text-[14px] text-white" style="background:var(--red)">Johnson / ${m.noble}</div></div>
           ${spec('Max working height',m.wh+' ft',n.wh)}${spec('Platform height',m.ph+' ft',n.platHt+' ft')}${spec('Platform capacity',m.cap+' lb',n.cap+' lb')}${spec('Deck width',m.width+'″',n.deckW+'″')}${spec('Power','Electric',n.power+' (lithium opt.)')}${spec('Use','Indoor / slab',n.io)}</div>
         <p class="mt-3 text-xs" style="color:#aaa">NobleLift specs are from NobleLift's published SC-Series spec sheet; competitor specs shown for comparison.</p></div>
-      <div class="sticky top-28 space-y-4">${repCard(m)}${inlineForm('q_'+m.id, 'NobleLift '+m.noble)}</div></div>
+      <div class="sticky top-28 space-y-4">${nobleImg(m)}${repCard(m)}${inlineForm('q_'+m.id, 'NobleLift '+m.noble)}</div></div>
 
     ${modelSEO(m)}
     <div class="mt-12"><h2 class="disp mb-4" style="color:var(--ink);font-size:1.85rem">Also in ${m.hk} ft</h2>
@@ -397,7 +404,7 @@ function sent(){document.getElementById('qm-body').innerHTML=`<div class="text-c
 function closeQuote(){const q=document.getElementById('qm');q.classList.add('hidden');q.classList.remove('flex');}
 document.getElementById('qm').addEventListener('click',closeQuote);
 
-window.addEventListener('hashchange',router);router();
+try{var _r=document.getElementById('siteRev');if(_r)_r.textContent='rev '+REV+' · '+BUILD;}catch(e){}console.log('Johnson Equipment Company scissor lift site · rev '+REV+' · build '+BUILD);window.addEventListener('hashchange',router);router();
 </script>
 </body>
 </html>
