@@ -1,4 +1,4 @@
-<!-- Johnson Equipment Company · scissor lift site · rev 3 · build 2026-06-26 -->
+<!-- Johnson Equipment Company · scissor lift site · rev 4 · build 2026-06-26 -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -126,7 +126,7 @@
 </div>
 
 <script>
-const REV=3,BUILD="2026-06-26";
+const REV=4,BUILD="2026-06-26";
 
 const NLINK="https://www.nobleliftna.com/lithium-scissor-lifts-self-propelled-sc-series";
 // [brand, model, platformHt, widthIn, capacityLb, nobleModel]
@@ -482,11 +482,22 @@ function router(){const h=location.hash.replace(/^#\/?/,'');const [t,a]=h.split(
   else{html=home();title='Scissor Lifts | Johnson Equipment Company';}
   app.innerHTML=html;document.title=title;window.scrollTo(0,0);if(!t)bindSearch();}
 function bindSearch(){const q=document.getElementById('q'),box=document.getElementById('results');if(!q)return;
-  q.addEventListener('input',()=>{const v=q.value.toLowerCase().replace(/[^a-z0-9]/g,'');if(!v){box.classList.add('hidden');return}
-    const hits=MODELS.filter(m=>(m.brand+m.model).toLowerCase().replace(/[^a-z0-9]/g,'').includes(v)).slice(0,6);
-    if(!hits.length){box.innerHTML='<div class="px-4 py-3 text-sm" style="color:#555">No match yet &mdash; <a onclick="openQuote()" style="color:var(--red);cursor:pointer" class="underline">request a quote</a> and we will source it.</div>';box.classList.remove('hidden');return}
-    box.innerHTML=hits.map(m=>`<a href="#/m/${m.slug}" onclick="document.getElementById('results').classList.add('hidden')" class="flex items-center justify-between px-4 py-2.5 hover:bg-gray-50 text-sm"><span style="color:var(--ink)">${m.brand} ${m.model}</span><span class="disp" style="color:var(--red);font-size:.8rem">Compare &rarr;</span></a>`).join('');box.classList.remove('hidden');});q.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();go();}});}
-function norm(s){return String(s).toLowerCase().replace(/[^a-z0-9]/g,'');}function bestMatch(v){if(!v)return null;return MODELS.find(m=>norm(m.model)===v)||MODELS.find(m=>norm(m.brand+m.model)===v)||MODELS.find(m=>norm(m.model).startsWith(v))||MODELS.find(m=>norm(m.brand+m.model).includes(v))||MODELS.find(m=>(norm(m.brand)+norm(m.model)).includes(v))||null;}function go(){const q=document.getElementById('q');if(!q)return;const v=norm(q.value);const box=document.getElementById('results');if(box)box.classList.add('hidden');if(!v)return;const hit=bestMatch(v);if(hit)location.hash='#/m/'+hit.slug;else openQuote();}
+  q.addEventListener('input',()=>{const v=norm(q.value);if(!v){box.classList.add('hidden');return}
+    const mh=MODELS.filter(m=>norm(m.brand+m.model).includes(v)).slice(0,6);
+    const nh=NL_ORDER.filter(c=>norm(c).includes(v)).slice(0,4);
+    if(!mh.length&&!nh.length){box.innerHTML='<div class="px-4 py-3 text-sm" style="color:#555">No match yet &mdash; <a onclick="openQuote()" style="color:var(--red);cursor:pointer" class="underline">request a quote</a> and we will source it.</div>';box.classList.remove('hidden');return}
+    const mItems=mh.map(m=>`<a href="#/m/${m.slug}" onclick="document.getElementById('results').classList.add('hidden')" class="flex items-center justify-between px-4 py-2.5 hover:bg-gray-50 text-sm"><span style="color:var(--ink)">${m.brand} ${m.model}</span><span class="disp" style="color:var(--red);font-size:.8rem">Compare &rarr;</span></a>`);
+    const nItems=nh.map(c=>`<a href="#/nl/${c}" onclick="document.getElementById('results').classList.add('hidden')" class="flex items-center justify-between px-4 py-2.5 hover:bg-gray-50 text-sm"><span style="color:var(--ink)">NobleLift ${c}</span><span class="disp" style="color:var(--red);font-size:.8rem">Our lift &rarr;</span></a>`);
+    box.innerHTML=mItems.concat(nItems).join('');box.classList.remove('hidden');});q.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();go();}});}
+function norm(s){return String(s).toLowerCase().replace(/[^a-z0-9]/g,'');}function bestMatch(v){if(!v)return null;return MODELS.find(m=>norm(m.model)===v)||MODELS.find(m=>norm(m.brand+m.model)===v)||MODELS.find(m=>norm(m.model).startsWith(v))||MODELS.find(m=>norm(m.brand+m.model).includes(v))||MODELS.find(m=>(norm(m.brand)+norm(m.model)).includes(v))||null;}function bestHit(v){if(!v)return null;
+  let m=MODELS.find(x=>norm(x.model)===v)||MODELS.find(x=>norm(x.brand+x.model)===v);if(m)return{t:'m',slug:m.slug};
+  let c=NL_ORDER.find(x=>norm(x)===v);if(c)return{t:'nl',code:c};
+  m=MODELS.find(x=>norm(x.model).startsWith(v));if(m)return{t:'m',slug:m.slug};
+  c=NL_ORDER.find(x=>norm(x).startsWith(v));if(c)return{t:'nl',code:c};
+  m=MODELS.find(x=>norm(x.brand+x.model).includes(v))||MODELS.find(x=>(norm(x.brand)+norm(x.model)).includes(v));if(m)return{t:'m',slug:m.slug};
+  c=NL_ORDER.find(x=>norm(x).includes(v));if(c)return{t:'nl',code:c};
+  return null;}
+function go(){const q=document.getElementById('q');if(!q)return;const v=norm(q.value);const box=document.getElementById('results');if(box)box.classList.add('hidden');if(!v)return;const h=bestHit(v);if(!h){openQuote();return;}location.hash=h.t==='nl'?('#/nl/'+h.code):('#/m/'+h.slug);}
 
 function openQuote(label){document.getElementById('qm-title').innerHTML=label?('Comparable to '+label):'Electric Scissor Lift';document.getElementById('qm-body').innerHTML=`${repCard()}<div class="mt-4">${inlineForm('qm_inline',label||'')}</div>`;document.getElementById('qm').classList.remove('hidden');document.getElementById('qm').classList.add('flex');}
 function sent(){document.getElementById('qm-body').innerHTML=`<div class="text-center py-10">
