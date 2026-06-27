@@ -1,4 +1,4 @@
-<!-- Johnson Equipment Company · scissor lift site · rev 1 · build 2026-06-25 -->
+<!-- Johnson Equipment Company · scissor lift site · rev 2 · build 2026-06-26 -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -114,7 +114,7 @@
 </div>
 
 <script>
-const REV=1,BUILD="2026-06-25";
+const REV=2,BUILD="2026-06-26";
 
 const NLINK="https://www.nobleliftna.com/lithium-scissor-lifts-self-propelled-sc-series";
 // [brand, model, platformHt, widthIn, capacityLb, nobleModel]
@@ -348,8 +348,8 @@ function model(s){
             <div class="px-5 py-3 disp text-[14px]" style="color:#444">${m.brand} ${m.model}</div>
             <div class="px-5 py-3 disp text-[14px] text-white" style="background:var(--red)">Johnson / ${m.noble}</div></div>
           ${spec('Max working height',m.wh+' ft',n.wh)}${spec('Platform height',m.ph+' ft',n.platHt+' ft')}${spec('Platform capacity',m.cap+' lb',n.cap+' lb')}${spec('Deck width',m.width+'″',n.deckW+'″')}${spec('Power','Electric',n.power+' (lithium opt.)')}${spec('Use','Indoor / slab',n.io)}</div>
-        <p class="mt-3 text-xs" style="color:#aaa">NobleLift specs are from NobleLift's published SC-Series spec sheet; competitor specs shown for comparison.</p></div>
-      <div class="sticky top-28 space-y-4">${nobleImg(m)}${repCard(m)}${inlineForm('q_'+m.id, 'NobleLift '+m.noble)}</div></div>
+        <p class="mt-3 text-xs" style="color:#aaa">NobleLift specs are from NobleLift's published SC-Series spec sheet; competitor specs shown for comparison.</p><div class="mt-6">${nobleImg(m)}</div></div>
+      <div class="sticky top-28 space-y-4">${repCard(m)}${inlineForm('q_'+m.id, 'NobleLift '+m.noble)}</div></div>
 
     ${modelSEO(m)}
     <div class="mt-12"><h2 class="disp mb-4" style="color:var(--ink);font-size:1.85rem">Also in ${m.hk} ft</h2>
