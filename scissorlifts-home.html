@@ -1,4 +1,4 @@
-<!-- Johnson Equipment Company · scissor lift site · rev 13 · build 2026-07-02 -->
+<!-- Johnson Equipment Company · scissor lift site · rev 17 · build 2026-07-02 -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,6 +9,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
 <style>
   @font-face{font-family:'American Captain';src:url('American-Captain.ttf') format('truetype'),url('https://jequip.com/wp-content/uploads/2022/01/American-Captain.ttf') format('truetype');font-display:swap;}
   :root{--red:#e61c23;--red-dark:#bf1015;--black:#000;--ink:#141414;--text:#333;--muted:#9a9a9a;--line:#e3e3e3;--mist:#f5f5f5;--white:#fff;
@@ -28,26 +29,49 @@
   .tile:hover{border-color:var(--red);transform:translateY(-3px)}.tile:hover .tnum{color:#fff;background:var(--red)}
   .mcard:hover{border-color:var(--red);transform:translateY(-2px)}
   a{text-decoration:none}
+  /* Announcement — matched to jequip.com */
+  .util-link{font-family:'American Captain','Anton',sans-serif;font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:#fff;text-decoration:none}
+  .util-link:hover{opacity:.72}
+  .ann-frame{background:#222;padding:9px}
+  .ann-box{background:#1a1a1a;position:relative;overflow:hidden;padding:26px 24px 34px}
+  .ann-badge{display:inline-block;font-family:'Montserrat',sans-serif;font-weight:900;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#fff;background:#CC1F1F;padding:4px 16px;line-height:1.6;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
+  .ann-head{font-family:'Montserrat',sans-serif;font-weight:800;font-size:22px;letter-spacing:1px;text-transform:uppercase;color:#fff;line-height:1.35;margin-top:16px}
+  .ann-sub{font-family:'Montserrat',sans-serif;font-weight:400;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:#aaa;margin-top:10px}
+  .ann-press{display:inline-block;font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#fff;margin-top:20px;padding:8px 22px;border:2px solid #CC1F1F;text-decoration:none;transition:.15s}
+  .ann-press:hover{background:#CC1F1F}
+  .je-shape{position:absolute;right:0;bottom:0;background:#CC1F1F;clip-path:polygon(16px 0%,100% 0%,100% 100%,0% 100%);padding:12px 20px 12px 32px;display:flex;flex-direction:column;gap:4px;text-align:right}
+  .je-link{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#fff;text-decoration:none;line-height:1.3}
+  .je-link:hover{opacity:.62}
+  @media(max-width:768px){.je-shape{position:static;clip-path:none;flex-direction:row;justify-content:center;gap:18px;margin-top:20px;padding:10px 16px}}
 </style>
 </head>
 <body>
 
-<!-- top red band -->
+<!-- red top section (announcement + links) — matched to jequip.com; stops above menu -->
 <div style="background:var(--red)">
-  <div class="max-w-6xl mx-auto px-5 pt-5">
-    <div style="background:var(--black)" class="rounded-md text-center px-6 py-5">
-      <span class="disp inline-block text-white text-[11px] px-3 py-1 rounded" style="background:var(--red);letter-spacing:.18em">Announcement</span>
-      <div class="disp text-white mt-3" style="font-size:clamp(1.3rem,2.6vw,1.9rem)">Johnson Equipment Company is now part of the <span style="color:var(--red)">Rite-Hite</span> family</div>
-      <div class="mt-2 text-[13px] tracking-wide" style="color:#cfcfcf">Together, delivering excellence in loading dock safety &amp; equipment</div>
+  <div class="max-w-6xl mx-auto px-5" style="padding-top:10px;padding-bottom:8px">
+    <div class="ann-frame">
+      <div class="ann-box text-center">
+        <span class="ann-badge">Announcement</span>
+        <div class="ann-head">Johnson Equipment Company is now part of the <span style="color:#CC1F1F">Rite-Hite</span> family</div>
+        <div class="ann-sub">Together, delivering excellence in loading dock safety &amp; equipment</div>
+        <a href="https://jequip.com/wp-content/uploads/2026/03/Press-Release_Rite-Hite_March-26-2026.pdf" target="_blank" rel="noopener" class="ann-press">&darr; Press Release</a>
+        <div class="je-shape">
+          <a href="https://jeindustrialequipment.com/" target="_blank" rel="noopener" class="je-link">JE Industrial Equipment</a>
+          <a href="https://scissorlift.jequip.com/" target="_blank" rel="noopener" class="je-link">JE Scissor Lifts</a>
+        </div>
+      </div>
     </div>
-    <div class="flex justify-end gap-5 py-2 disp text-white text-[12px]">
-      <a href="#" class="hover:opacity-70">Merchandise</a><a href="#" class="hover:opacity-70">Careers</a>
-      <a href="#" class="hover:opacity-70">Online Catalog</a><a href="#" class="hover:opacity-70">Blog</a>
+    <div class="flex flex-wrap justify-end gap-x-6 gap-y-1" style="padding-top:8px">
+      <a href="https://store.bamboa.net/johnson_equipment/shop/home" target="_blank" rel="noopener" class="util-link">Merchandise</a>
+      <a href="https://www.paycomonline.net/v4/ats/web.php/jobs?clientkey=674B4C8DCF3F698B9785455E564A738B" target="_blank" rel="noopener" class="util-link">Careers</a>
+      <a href="https://issuu.com/scangroup/docs/185364?e=1294825/65093863" target="_blank" rel="noopener" class="util-link">Online Catalog</a>
+      <a href="https://jequip.com/blog/" target="_blank" rel="noopener" class="util-link">Blog</a>
     </div>
   </div>
 </div>
 
-<!-- header -->
+
 <header class="sticky top-0 z-30 bg-white border-b" style="border-color:var(--line)">
   <div class="max-w-6xl mx-auto px-5 h-[118px] flex items-center justify-between gap-6">
     <a href="index.html" class="flex items-center gap-3 shrink-0">
@@ -159,7 +183,7 @@
 </div>
 
 <script>
-const REV=13,BUILD="2026-07-02";
+const REV=17,BUILD="2026-07-02";
 
 const NLINK="https://www.nobleliftna.com/lithium-scissor-lifts-self-propelled-sc-series";
 // [brand, model, platformHt, widthIn, capacityLb, nobleModel]
