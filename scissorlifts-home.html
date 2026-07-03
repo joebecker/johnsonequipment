@@ -1,4 +1,4 @@
-<!-- Johnson Equipment Company · scissor lift site · rev 18 · build 2026-07-02 -->
+<!-- Johnson Equipment Company · scissor lift site · rev 19 · build 2026-07-02 -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -183,7 +183,7 @@
 </div>
 
 <script>
-const REV=18,BUILD="2026-07-02";
+const REV=19,BUILD="2026-07-02";
 
 const NLINK="https://www.nobleliftna.com/lithium-scissor-lifts-self-propelled-sc-series";
 // [brand, model, platformHt, widthIn, capacityLb, nobleModel]
@@ -251,6 +251,7 @@ function home(){
     <div class="eyebrow" style="color:#fff;opacity:.9">Electric Scissor Lifts &middot; 19&ndash;40 ft</div>
     <h1 class="disp mt-4 leading-[1.03]" style="font-size:clamp(2.6rem,5.6vw,4.6rem)">Comparing a Genie, JLG, Skyjack or MEC lift?<br><span style="color:var(--red)">Get the comparable unit from Johnson Equipment Company.</span></h1>
     <p class="mt-5 text-[1.08rem] max-w-2xl" style="color:#d6d6d6">Enter the competitor make or model you're pricing. We'll match it to a comparable electric scissor lift and quote it fast &mdash; backed by over 60 years of service and the Rite-Hite network.</p>
+    ${sellingStrip(true)}
     <div class="mt-7 max-w-2xl relative">
       <div class="flex items-center gap-2 bg-white rounded-sm p-1.5 pl-4 shadow-lg">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
@@ -519,7 +520,7 @@ function submitInline(id){const el=document.getElementById(id);if(!el)return;el.
 const IC_COST=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7-7A2 2 0 0 1 3 12.2V5a2 2 0 0 1 2-2h7.2a2 2 0 0 1 1.4.6l7 7a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.3"/></svg>`;
 const IC_FAST=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M13 2 4.5 13.5H11l-1 8.5L19.5 10H13z"/></svg>`;
 const IC_WAR=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M12 3l8 3v5.5c0 4.8-3.4 7.8-8 9-4.6-1.2-8-4.2-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>`;
-function sellingStrip(){const items=[["Lower cost","Comparable spec, typically priced under the OEM unit.",IC_COST],["Faster lead times","In stock and short lead times, not months of waiting.",IC_FAST],["Better warranty","Backed by a stronger warranty than the original.",IC_WAR]];return `<div class="mt-8 grid sm:grid-cols-3 gap-3">${items.map(p=>`<div class="rounded-sm border p-4" style="border-color:var(--line)"><div class="flex items-center gap-2"><span style="color:var(--red);display:inline-flex">${p[2]}</span><div class="disp" style="color:var(--red);font-size:1.4rem">${p[0]}</div></div><div class="text-[13px] mt-2" style="color:#666">${p[1]}</div></div>`).join("")}</div>`;}
+function sellingStrip(dark){const items=[["Lower cost","Comparable spec, typically priced under the OEM unit.",IC_COST],["Faster lead times","In stock and short lead times, not months of waiting.",IC_FAST],["Better warranty","Backed by a stronger warranty than the original.",IC_WAR]];const bd=dark?"rgba(255,255,255,.18)":"var(--line)",tc=dark?"#ff6b70":"var(--red)",dc=dark?"#d6d6d6":"#666",bg=dark?"background:rgba(255,255,255,.04);":"";return `<div class="mt-8 grid sm:grid-cols-3 gap-3">${items.map(p=>`<div class="rounded-sm border p-4" style="border-color:${bd};${bg}"><div class="flex items-center gap-2"><span style="color:${tc};display:inline-flex">${p[2]}</span><div class="disp" style="color:${tc};font-size:1.4rem">${p[0]}</div></div><div class="text-[13px] mt-2" style="color:${dc}">${p[1]}</div></div>`).join("")}</div>`;}
 function modelSEO(m){const r=rng(m.id*97+7);const pick=a=>a[Math.floor(r()*a.length)];
   const intro=pick([`Running a ${m.brand} ${m.model} and weighing your next purchase? It's worth a side-by-side look at the comparable electric scissor lift from Johnson Equipment Company before you pay OEM list.`,`If the ${m.brand} ${m.model} is on your shortlist, compare it to the Johnson Equipment Company equivalent &mdash; same job, often a better number on the quote.`,`Pricing a replacement for your ${m.brand} ${m.model}? Here is how the comparable Johnson Equipment Company unit stacks up on the specs that drive the decision.`,`The ${m.brand} ${m.model} is a well-known ${m.wh}-ft working-height machine, and there is a Johnson Equipment Company lift that lines up on every figure that matters.`,`Cross-shopping the ${m.brand} ${m.model}? Johnson Equipment Company matches it with a comparable lithium-electric lift and quotes it fast.`]);
   const spec=`The ${m.model} works to about ${m.wh} ft on a ${m.width}-inch-wide chassis rated to ${m.cap} lb. The comparable NobleLift ${m.noble} reaches ${NOBLE[m.noble].wh} working height with a ${NOBLE[m.noble].cap} lb platform.`;
